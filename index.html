@@ -7,16 +7,37 @@
   </head>
   <body>
     <h1 id='wordSpot'></h1>
+    <div>
+      <span>Pokemon caught</span><span id="totalCaught">0</span>
+    </div>
     <script type="text/javascript">
-      var words =['pokemon'];
+      $(document).ready(function() {
+
+      var words =['pokemon','pikachu','charizard','bulbasaur', 'jigglypuff','squirtle','pidgey','snorlax','butterfree', 'beedrill', 'rattata', 'ekans', 'nidoking','clefary','vulpix','gloom','diglett','meowth','psyduck','abra'];
+
+      var pokemon = {
+        p1 :{
+          name: 'Bulbasaur',
+          type: 'Grass',
+          number: 1,
+          caught:false,
+        },
+        p4: {
+          name: 'Charmander',
+          type: 'Fire',
+          number: 1,
+          caught:false,
+        }
+      }
+
+      console.log(pokemon.p1.name);
+
       var curWord = [];
       var curGuess = [];
+      var caughtCount = 0;
+      var lastWord = -1;
       // Array(words.length).join("_");
-      for (var i =0; i< words[0].length; i++) {
-        curGuess.push("_")
-        curWord.push(words[0][i]);
-      }
-      $('#wordSpot').html(curGuess)
+        newGame();
 
   document.onkeyup = function(event) {
 
@@ -40,20 +61,52 @@
         }
         
       };
+
+
     function checkWin() {
       var emptyLetter = curGuess.indexOf("_");
       if (emptyLetter == -1) {
-        alert('Winner Winner Chicken Dinner');
+        // alert('Winner Winner Chicken Dinner');
+        caughtCount++;
+        $("#totalCaught").html(caughtCount);
+        newGame();
       }
     }
-    function getAllIndexes(arr, val) {
-    var indexes = [], i;
-    for(i = 0; i < arr.length; i++)
-        if (arr[i] === val)
-            indexes.push(i);
-    return indexes;
-}
 
+      function newGame() {
+
+        // var randomWord = Math.floor(Math.random()*20)+1;
+
+        var randomPokemon = 1;
+        
+
+        if (lastWord != randomWord) {
+
+            curWord =[];
+            curGuess =[];
+
+            for (var i =0; i< words[randomWord].length; i++) {
+                  curGuess.push("_")
+                  curWord.push(words[randomWord][i]);
+                }
+                
+
+                $('#wordSpot').html(curGuess)
+                lastWord = randomWord;
+              }
+          else {
+           newGame();
+         }
+        }
+
+    function getAllIndexes(arr, val) {
+          var indexes = [], i;
+          for(i = 0; i < arr.length; i++)
+              if (arr[i] === val)
+                  indexes.push(i);
+          return indexes;
+      }
+    });
     </script>  
   </body>
 </html>
