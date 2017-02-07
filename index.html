@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="UTF-8">
+    <title>Hangman</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  </head>
+  <body>
+    <h1 id='wordSpot'></h1>
+    <script type="text/javascript">
+      var words =['pokemon'];
+      var curWord = [];
+      var curGuess = [];
+      // Array(words.length).join("_");
+      for (var i =0; i< words[0].length; i++) {
+        curGuess.push("_")
+        curWord.push(words[0][i]);
+      }
+      $('#wordSpot').html(curGuess)
+
+  document.onkeyup = function(event) {
+
+        // Captures the key press, converts it to lowercase, and saves it to a variable.
+        var letter = String.fromCharCode(event.keyCode).toLowerCase();
+        //index to determine if there are matches can probably replace this
+        var guess = curWord.indexOf(letter);
+        console.log(curWord);
+        console.log(letter);
+        console.log(guess);
+
+        if (guess != -1) {
+          var allIndex = getAllIndexes(curWord,letter);
+            for (var i = 0; i < allIndex.length; i++) {
+              curGuess[allIndex[i]] = letter;
+            }
+          // curGuess[guess] = letter;
+          // curWord.push(words[i]);
+          $('#wordSpot').html(curGuess)
+          checkWin();
+        }
+        
+      };
+    function checkWin() {
+      var emptyLetter = curGuess.indexOf("_");
+      if (emptyLetter == -1) {
+        alert('Winner Winner Chicken Dinner');
+      }
+    }
+    function getAllIndexes(arr, val) {
+    var indexes = [], i;
+    for(i = 0; i < arr.length; i++)
+        if (arr[i] === val)
+            indexes.push(i);
+    return indexes;
+}
+
+    </script>  
+  </body>
+</html>
