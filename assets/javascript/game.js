@@ -23,9 +23,10 @@
           caught: false,
         }
       }
-
+      // if not adding all pokemon, create array to contain all numbers
       var curWord = [];
-      var curGuess = [];
+      var curGuess = [];;
+      var guessRemain;
       var caughtCount = 0;
       var lastWord = -1;
       var curPokemon;
@@ -61,8 +62,12 @@
           // curWord.push(words[i]);
           $('#wordSpot').html(curGuess)
           checkWin();
+
         }
-        
+        else {
+          guessRemain--;
+          $("#guessesRemaining").html(guessRemain);
+        }
       };
 
 
@@ -86,6 +91,7 @@
         curPokemon = 'p' + randomPokemon;
         curWord = [];
         curGuess =[];
+        guessRemain = 10;
         
         var check = pokemon[curPokemon].caught;
         
@@ -105,6 +111,7 @@
             curGuess.push("_");
           }
           $('#wordSpot').html(curGuess)
+          $("#guessesRemaining").html(guessRemain);
         }
       }
 
