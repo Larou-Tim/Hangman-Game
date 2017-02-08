@@ -5,7 +5,14 @@
     <title>Hangman</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js">    </script>
     <script type="text/javascript" src="assets/javascript/game.js"></script>
+    
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
   </head>
   <body>
 <!--   1. add bootstrap formating
@@ -13,13 +20,32 @@
   3. create clues
   4. on win create capture animation
   5. on loss create run away animation
+
    -->
-    <h1 id='wordSpot'></h1>
-    <div>
+
+   <div class="text-center">
+      <img src="assets/images/logoCatchEm.png" alt="Classic Logo" class="img-responsive">
+    </div>
+   <div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 id='wordSpot'></h2>
+            </div>
+            <div class='col-sm-2'></div>
+            <div id="picture-spot" class="col-sm-2">
+            </div>
+         </div>
+    <div class='row'>
       <span>Pokemon caught: </span><span id="totalCaught">0</span>
     </div>
-    <div>
+    <div class='row'>
       <span>Guesses Remaining: </span><span id='guessesRemaining'>10</span>
+    </div>
+    
+      
+   
+    </div>
     </div>
    
   </body>

@@ -1,0 +1,33 @@
+
+
+@font-face {
+    font-family: pokemonFont;
+    src: url(PokemonGB.ttf);
+}
+
+/*div {
+    font-family: pokemonFont;
+}*/
+
+body {
+	background-color: red;
+	font-family: pokemonFont;
+}
+
+.img-responsive {
+    margin: 25px auto;
+    top: 0;
+}
+
+.jumbotron {
+	border-style: double;
+	border-color: #666666;
+	border-width: 6px;
+}
+#wordSpot{
+	letter-spacing: 2px;
+}
+
+#pictureSpot {
+	fitler:gray;
+}
