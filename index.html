@@ -21,26 +21,62 @@
   4. on win create capture animation
   5. on loss create run away animation
 
+    HP will be based on letters guessed
+    'pokeball icon for guesses' - you'll git 6 because why not
    -->
 
    <div class="text-center">
       <img src="assets/images/logoCatchEm.png" alt="Classic Logo" class="img-responsive">
     </div>
+
+    <div class="container">
+        <div class="jumbotron" id="imageBox">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class='row'>
+                        <h2 id='wordSpot'></h2>
+                    </div>
+                    <div class="row">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 100%">
+                              <span class="sr-only"></span>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class='col-sm-2'></div>
+                <div class='col-sm-2'></div>
+                <div id="picture-spot" class="col-sm-2">
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2"> <img src="assets/images/trainer.png" alt="Trainer"></div>
+              <div class="col-sm-6"></div>
+              <div class="col-sm-4">
+                  <div class="circle" id="circle-1"></div>
+                  <div class="circle" id="circle-2"></div>
+                  <div class="circle" id="circle-3"></div>
+                  <div class="circle" id="circle-4"></div>
+                  <div class="circle" id="circle-5"></div>
+                  <div class="circle" id="circle-6"></div>
+              </div>
+                
+            </div>
+        </div>
+    </div>
    <div class="container">
-    <div class="jumbotron">
+    <div class="jumbotron" id="wordBox">
         <div class="row">
-            <div class="col-sm-6">
-                <h2 id='wordSpot'></h2>
-            </div>
-            <div class='col-sm-2'></div>
-            <div id="picture-spot" class="col-sm-2">
-            </div>
+            
          </div>
     <div class='row'>
-      <span>Pokemon caught: </span><span id="totalCaught">0</span>
+      <span>Pokemon Caught: </span><span id="totalCaught">0</span>
     </div>
     <div class='row'>
-      <span>Guesses Remaining: </span><span id='guessesRemaining'>10</span>
+      <span>Guesses Remaining: </span><span id='guessesRemaining'></span>
+    </div>
+    <div class='row'>
+      <span>Guessed Letters: </span><span id='guessed-letters'></span>
     </div>
     
       

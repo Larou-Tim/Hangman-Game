@@ -177,6 +177,7 @@
   // if not adding all pokemon, create array to contain all numbers
   var curWord = [];
   var curGuess = [];
+  var guessedLet = [];
   var guessRemain;
   var caughtCount = 0;
   var lastWord = -1;
@@ -192,7 +193,7 @@
     var letter = String.fromCharCode(event.keyCode).toLowerCase();
     var guess = curWord.indexOf(letter);
     var guessCap = curWord.indexOf(letter.toUpperCase());
-    console.log(curPokemon);
+    // console.log(curPokemon);
     
 
     if (guess != -1 || guessCap != -1) {
@@ -203,26 +204,31 @@
         curGuess[allIndex[i]] = letter;
       }
 
-       for (var i = 0; i < allCapIndex.length; i++) {
+      for (var i = 0; i < allCapIndex.length; i++) {
         curGuess[allCapIndex[i]] = letter.toUpperCase();
       }
 
       $('#wordSpot').html(curGuess)
+      hpBar();
       checkWin();
       // checkLose();
     }
 
     else {
+      if (guessedLet.indexOf(letter) == -1) {
       guessRemain--;
-      checkLose();
-      $("#guessesRemaining").html(guessRemain);
+      guessedLet.push(letter);
+      guessCircles();
+      $("#guessed-letters").append("<span>" + letter + " </span>");
+      checkLose();  
+        }
     }
   };
 
 // checks to see if all letters have been guessed
   function checkWin() {
     var emptyLetter = curGuess.indexOf("_");
-    console.log(guessRemain)
+    // console.log(guessRemain)
     if (emptyLetter == -1) {
       // alert('Winner Winner Chicken Dinner');
       caughtCount++;
@@ -231,7 +237,7 @@
       newGame();
     }    
   }
-  
+
 function  checkLose() {
   if (guessRemain == 0) {
       console.log('The pokemon Escaped');
@@ -240,7 +246,40 @@ function  checkLose() {
     }
 }
 function imgEscape(){
+  $("#picture-spot").animate({ height: "-=10px" });
+}
 
+function guessCircles() {
+
+        $("#guessesRemaining").html(guessRemain);
+        switch (guessRemain) {
+          case 6:
+              $("#circle-1").css("background", "");
+              $("#circle-2").css("background", "");
+              $("#circle-3").css("background", "");
+              $("#circle-4").css("background", "");
+              $("#circle-5").css("background", "");
+              $("#circle-6").css("background", "");
+              break;
+          case 5:
+            $("#circle-1").css("background", "#666666");
+            break;
+          case 4:
+            $("#circle-2").css("background", "#666666");
+            break;
+          case 3:
+            $("#circle-3").css("background", "#666666");
+            break;
+          case 2:
+            $("#circle-4").css("background", "#666666");
+            break;
+          case 1:
+            $("#circle-5").css("background", "#666666");
+            break;
+          case 0:
+            $("#circle-6").css("background", "#666666");
+            break;
+          }
 }
 
 //creates new game and updates screen
@@ -253,7 +292,8 @@ function imgEscape(){
     curPokemon = 'p' + randomPokemon;
     curWord = [];
     curGuess = [];
-    guessRemain = 10;
+    guessedLet = [];
+    guessRemain = 6;
     
     var check = pokemon[curPokemon].caught;
     $("#picture-spot").html("<img src='assets/images/"+pokemon[curPokemon].picture+ "' alt='Pokemon Picture'>")
@@ -274,6 +314,9 @@ function imgEscape(){
       }
       $('#wordSpot').html(curGuess)
       $("#guessesRemaining").html(guessRemain);
+      $("#guessed-letters").empty();
+      guessCircles();
+      hpBar();
     }
   }
 // handler for finding all matches
@@ -294,6 +337,43 @@ function imgEscape(){
     }
     return length;
   };
+
+  function hpBar () {
+    console.log('x');
+    var countRemaining = getAllIndexes(curGuess,"_").length;
+    var totalLetters = curGuess.length;
+    var hpPercent = Math.floor( countRemaining/totalLetters * 100 );
+    console.log(hpPercent);
+
+
+
+
+    if (hpPercent > 50) {
+      $(".progress").html('<div class="progress-bar progress-bar-success" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
+
+    }
+    else if(hpPercent > 20) {
+       $(".progress").html('<div class="progress-bar progress-bar-warning" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
+    }
+
+    else if(hpPercent > 0) {
+      $(".progress").html('<div class="progress-bar progress-bar-danger" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
+        
+    }
+
+    }
+    
+          // <div class="progress-bar progress-bar-success" style="width: 100%">
+          //                     <span class="sr-only">35% Complete (success)</span>
+          //                   </div>
+          //                   <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%">
+          //                     <span class="sr-only">20% Complete (warning)</span>
+          //                   </div>
+          //                   <div class="progress-bar progress-bar-danger" style="width: 0%">
+          //                     <span class="sr-only">10% Complete (danger)</span>
+          //                   </div>
+          //                   </div> 
+  
 
 }); //end of document ready
 

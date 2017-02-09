@@ -19,15 +19,37 @@ body {
     top: 0;
 }
 
-.jumbotron {
+#wordBox {
 	border-style: double;
 	border-color: #666666;
 	border-width: 6px;
 }
 #wordSpot{
 	letter-spacing: 2px;
+	width: 100%;
 }
 
-#pictureSpot {
-	fitler:gray;
+
+.circle {
+
+      width: 15px;
+      height: 15px;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      /*border-style: solid;
+      border-color: #666666
+      border-width: 0.25pt;*/
+      /*background: red;*/
+      float: right;
+      margin-left: 3px;
+      margin-top: 50px;
+
+    background: red; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(red, #b1b2b5); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(red, #b1b2b5); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(red, #b1b2b5); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(red, #b1b2b5); /* Standard syntax */
+    
 }
+
