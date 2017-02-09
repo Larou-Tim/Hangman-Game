@@ -25,7 +25,7 @@ var pokemon = {
       type: 'Grass/Poison',
       number: 3,
       caught: false,
-      picture: "vensaur.gif"
+      picture: "venusaur.gif"
       
     },
 
@@ -43,7 +43,7 @@ var pokemon = {
       type: 'Fire',
       number: 5,
       caught: false,
-      picture: "charmelon.gif"
+      picture: "charmeleon.gif"
       
     },
 
@@ -175,6 +175,7 @@ var pokemon = {
       type: 'Normal/Flying',
       number: 21,
       caught: false,
+      picture: "spearow.gif"
     },
 
   p22: {
@@ -238,7 +239,7 @@ var pokemon = {
     type: 'Poison',
     number: 29,
     caught: false,
-    Picture: "nidoranf.gif"
+    picture: "nidoranf.gif"
   },
 
   p30: {
@@ -270,6 +271,7 @@ var pokemon = {
     type: 'Poison',
     number: 33,
     caught: false,
+    picture: 'nidorino.gif'
 
   },
 
@@ -436,7 +438,7 @@ var pokemon = {
     var letter = String.fromCharCode(event.keyCode).toLowerCase();
     var guess = curWord.indexOf(letter);
     var guessCap = curWord.indexOf(letter.toUpperCase());
-    // console.log(curPokemon);
+    console.log(curPokemon);
     
 
     if (guess != -1 || guessCap != -1) {
@@ -477,20 +479,45 @@ var pokemon = {
       caughtCount++;
       $("#totalCaught").html(caughtCount);
       pokemon[curPokemon].caught = true;
-      newGame();
+      pokeballThrow();
+      setTimeout(function(){ newGame(); }, 1000);
     }    
   }
+
+function pokeballThrow () {
+  $("#imageBox").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
+  $("#pokeball").animate({ top: "-=200px", left: "+=300px" }, "normal", function() {
+    $("#poke-gif").animate({
+    width: '0px',
+    height: '0px',
+        // opacity: '0.2'
+      });
+
+  });
+  setTimeout(function(){ $("#poke-gif").remove(); }, 1000)
+  setTimeout(function(){ $("#pokeball").remove(); }, 1000)
+}
 
 function  checkLose() {
   if (guessRemain == 0) {
       console.log('The pokemon Escaped');
-      imgEscape();
-      newGame();
+      // $("#poke-gif").animate({
+      //   width: '0px',
+      //   height: '0px',
+      //   // opacity: '0.2'
+      // });
+
+      // $("#poke-gif").remove(); 
+      $("#poke-gif").slideUp(300).delay(800);
+
+      // setTimeout(function(){ $("#picture-spot").empty(); }, 1000)
+
+      setTimeout(function(){ newGame(); }, 500);
+      
     }
 }
-function imgEscape(){
-  $("#picture-spot").animate({ height: "-=10px" });
-}
+
+
 
 function guessCircles() {
 
@@ -538,7 +565,10 @@ function guessCircles() {
     guessRemain = 6;
     
     var check = pokemon[curPokemon].caught;
-    $("#picture-spot").html("<img src='assets/images/"+pokemon[curPokemon].picture+ "' alt='Pokemon Picture'>")
+    $("#picture-spot").stop();
+    $("#picture-spot").empty();
+    $("#picture-spot").append("<img src='assets/images/"+pokemon[curPokemon].picture+ "' alt='Pokemon Picture' id='poke-gif'>")
+    $("#picture-spot").stop();
     if (check) {
       
       if (caughtCount != ObjectLength(pokemon)) {
@@ -581,7 +611,7 @@ function guessCircles() {
   };
 
   function hpBar () {
-    console.log('x');
+    // console.log('x');
     var countRemaining = getAllIndexes(curGuess,"_").length;
     var totalLetters = curGuess.length;
     var hpPercent = Math.floor( countRemaining/totalLetters * 100 );
