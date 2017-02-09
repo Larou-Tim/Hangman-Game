@@ -1,7 +1,7 @@
- $(document).ready(function() {
+$(document).ready(function() {
 
 
-  var pokemon = {
+var pokemon = {
 
     p1 :{
       name: 'Bulbasaur',
@@ -9,6 +9,7 @@
       number: 1,
       caught: false,
       picture: 'bulbasaur.gif'
+     
     },
  p2 :{
       name: 'Ivysaur',
@@ -16,6 +17,7 @@
       number: 2,
       caught: false,
       picture: 'ivysaur.gif'
+      
     },
 
     p3: {
@@ -23,7 +25,8 @@
       type: 'Grass/Poison',
       number: 3,
       caught: false,
-      picture: 'venusaur.gif'
+      picture: "vensaur.gif"
+      
     },
 
         p4: {
@@ -32,6 +35,7 @@
       number: 4,
       caught: false,
       picture: 'charmander.gif'
+      
     },
 
         p5: {
@@ -39,7 +43,8 @@
       type: 'Fire',
       number: 5,
       caught: false,
-      picture: 'charmeleon.gif'
+      picture: "charmelon.gif"
+      
     },
 
 
@@ -165,13 +170,251 @@
       picture: 'raticate.gif'
     },
 
-        p21: {
+      p21: {
       name: 'Spearow',
       type: 'Normal/Flying',
       number: 21,
       caught: false,
-      picture: 'spearow.gif'
     },
+
+  p22: {
+    name: 'Fearow',
+    type: 'Normal/Flying',
+    number: 22,
+    caught: false,
+    picture: 'fearow.gif'
+  },
+
+  p23: {
+    name: "Ekans",
+    type: 'Poison',
+    number: 23,
+    caught: false,
+    picture: "ekans.gif"
+  },
+
+  p24: {
+    name: 'Arbok',
+    type: 'Poison',
+    number: 24,
+    caught: false,
+    picture: "arbok.gif"
+  },
+
+  p25: {
+    name: 'Pikachu',
+    type: 'Electric',
+    number: 25,
+    caught: false,
+    picture: "pikachu.gif"
+  },
+
+  p26: {
+    name: 'Raichu',
+    type: 'Electric',
+    number: 26,
+    caught: false,
+    picture: "raichu.gif"
+  },
+
+  p27: {
+    name: 'Sandshrew',
+    type: 'Ground',
+    number: 27,
+    caught: false,
+    picture: "sandshrew.gif"
+  },
+
+  p28: {
+    name: 'Sandslash',
+    type: 'Ground',
+    number: 28,
+    caught: false,
+    picture: "sandslash.gif"
+  },
+
+  p29: {
+    name: 'Nidoran',
+    type: 'Poison',
+    number: 29,
+    caught: false,
+    Picture: "nidoranf.gif"
+  },
+
+  p30: {
+    name: 'Nidorina',
+    type: 'Poison',
+    number: 30,
+    caught: false,
+    picture: "nidorina.gif"
+  },
+
+  p31: {
+    name: 'Nidoqueen',
+    type: 'Poison/Ground',
+    number: 31,
+    caught: false,
+    picture: "nidoqueen.gif"
+  },
+
+  p32: {
+    name: 'Niodran',
+    type: 'Poison',
+    number: 32,
+    caught: false,
+    picture: "nidoranm.gif"
+  },
+
+  p33: {
+    name: "Nidorino",
+    type: 'Poison',
+    number: 33,
+    caught: false,
+
+  },
+
+  p34: {
+    name: 'Nidoking',
+    type: 'Poison/Ground',
+    number: 34,
+    caught: false,
+    picture: "nidoking.gif"
+  },
+
+  p35: {
+    name: 'Clefairy',
+    type: 'Normal (Now Fairy)',
+    number: 35,
+    caught: false,
+    picture: "clefairy.gif"
+  },
+
+  p36: {
+    name: 'Clefable',
+    type: 'Normal (Now Fairy)',
+    number: 36,
+    caught: false,
+    picture: "clefable.gif"
+  },
+
+  p37: {
+    name: 'Vulpix',
+    type: 'Fire',
+    number: 37,
+    caught: false,
+    picture: "vulpix.gif"
+  },
+
+  p38: {
+    name: 'Ninetales',
+    type: 'Fire',
+    number: 39,
+    caught: false,
+    picture: "ninetales.gif"
+  },
+
+  p39: {
+    name: 'Jigglypuff',
+    type: 'Normal',
+    number: 39,
+    caught: false,
+    picture: "jigglypuff.gif"
+  },
+
+  p40: {
+    name: 'Wigglytuff',
+    type: 'Normal',
+    number: 40,
+    caught: false,
+    picture: "wigglytuff.gif"
+  },
+
+  p41: {
+    name: 'Zubat',
+    type: 'Poison/Flying',
+    number: 41,
+    caught: false,
+    picture: "zubat.gif"
+  },
+
+  p42: {
+    name: 'Golbat',
+    type: 'Poison/Flying',
+    number: 42,
+    caught: false,
+    picture: "golbat.gif"
+  },
+
+  p43: {
+    name: 'Oddish',
+    type: 'Grass/Poison',
+    number: 43,
+    caught: false,
+    picture: "oddish.gif"
+  },
+
+  p44: {
+    name: 'Gloom',
+    type: 'Grass/Poison',
+    number: 44,
+    caught: false,
+    picture: "gloom.gif"
+  },
+
+  p45: {
+    name: 'Vileplume',
+    type: 'Grass/Poison',
+    number: 45,
+    caught: false,
+    picture: "vileplume.gif"
+  },
+
+  p46: {
+    name: 'Paras',
+    type: 'Bug/Grass',
+    number: 46,
+    caught: false,
+    picture: "paras.gif"
+  },
+
+  p47: {
+    name: 'Parasect',
+    type: 'Bug/Grass',
+    number: 47,
+    caught: false,
+    picture: "parasect.gif"
+  },
+
+  p48: {
+    name: 'Venonat',
+    type: 'Bug/Poison',
+    number: 48,
+    caught: false,
+    picture: "venonat.gif"
+  },
+
+  p49: {
+    name: 'Venomoth',
+    type: 'Bug/Poison',
+    number: 49,
+    caught: false,
+    picture: "venomoth.gif"
+  },
+
+  p50: {
+    name: 'Diglett',
+    type: 'Ground',
+    number: 50,
+    caught: false,
+    picture: "diglett.gif"
+  },
+
+  // p51: {
+  //   name: 'Spearow',
+  //   type: 'Normal/Flying',
+  //   number: 21,
+  //   caught: false,
+  // },
 
   }
   // if not adding all pokemon, create array to contain all numbers
@@ -285,10 +528,9 @@ function guessCircles() {
 //creates new game and updates screen
   function newGame() {
 
-    // var randomWord = Math.floor(Math.random()*20)+1;
-
-    var randomPokemon = Math.floor(Math.random()*21)+1;
+    var randomPokemon = Math.floor(Math.random()*50)+1;
     // console.log(randomPokemon);
+    // var randomPokemon = 22;
     curPokemon = 'p' + randomPokemon;
     curWord = [];
     curGuess = [];
@@ -343,10 +585,7 @@ function guessCircles() {
     var countRemaining = getAllIndexes(curGuess,"_").length;
     var totalLetters = curGuess.length;
     var hpPercent = Math.floor( countRemaining/totalLetters * 100 );
-    console.log(hpPercent);
-
-
-
+    // console.log(hpPercent);
 
     if (hpPercent > 50) {
       $(".progress").html('<div class="progress-bar progress-bar-success" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
@@ -361,18 +600,8 @@ function guessCircles() {
         
     }
 
-    }
+  }
     
-          // <div class="progress-bar progress-bar-success" style="width: 100%">
-          //                     <span class="sr-only">35% Complete (success)</span>
-          //                   </div>
-          //                   <div class="progress-bar progress-bar-warning progress-bar-striped" style="width: 0%">
-          //                     <span class="sr-only">20% Complete (warning)</span>
-          //                   </div>
-          //                   <div class="progress-bar progress-bar-danger" style="width: 0%">
-          //                     <span class="sr-only">10% Complete (danger)</span>
-          //                   </div>
-          //                   </div> 
   
 
 }); //end of document ready

@@ -5,10 +5,6 @@
     src: url(PokemonGB.ttf);
 }
 
-/*div {
-    font-family: pokemonFont;
-}*/
-
 body {
 	background-color: red;
 	font-family: pokemonFont;
@@ -27,11 +23,34 @@ body {
 #wordSpot{
 	letter-spacing: 2px;
 	width: 100%;
+  margin: 25px auto; 
+}
+#picture-spot {
+  float: right;
+  position: relative;
+  right: 0px;
+}
+#imageBox {
+  position: relative;
+  width: 550px;
+  height: 350px;
+  margin: 0 auto;
 }
 
+#trainer {
+  height: 85px;
+  width: auto;
+}
+.container { margin-top: 25px; }
+
+#bottom-row {
+  position: absolute;
+  bottom: 15px;
+  width: 470px;
+}
 
 .circle {
-
+    
       width: 15px;
       height: 15px;
       -webkit-border-radius: 8px;
@@ -43,7 +62,7 @@ body {
       /*background: red;*/
       float: right;
       margin-left: 3px;
-      margin-top: 50px;
+      margin-top: 25px;
 
     background: red; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(red, #b1b2b5); /* For Safari 5.1 to 6.0 */
