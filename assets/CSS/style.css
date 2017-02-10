@@ -15,22 +15,23 @@ body {
     top: 0;
 }
 
-#wordBox {
+#word-box {
 	border-style: double;
 	border-color: #666666;
 	border-width: 6px;
+  position: relative;
 }
-#wordSpot{
+#word-spot{
 	letter-spacing: 2px;
 	width: 100%;
   margin: 25px auto; 
 }
 #picture-spot {
-  float: right;
+  /*float: right;*/
   position: relative;
   right: 0px;
 }
-#imageBox {
+#image-box {
   position: relative;
   width: 550px;
   height: 350px;
@@ -47,6 +48,15 @@ body {
   position: absolute;
   bottom: 15px;
   width: 470px;
+}
+@font-face {
+    font-family: unknownFont;
+    src: url(unknownGB.ttf);
+}
+
+.unknown-sybmol{
+  font-family: unknownFont;
+
 }
 
 .circle {
@@ -84,4 +94,10 @@ body {
   position: absolute;
   top: 0px;
   right: 0px;
+}
+
+#icon-spot{
+  position: absolute;
+  bottom: 5px;
+  right: 15px;
 }

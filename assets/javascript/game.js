@@ -9,13 +9,16 @@ $(document).ready(function() {
   var curPokemon;
   // console.log( ObjectLength(pokemon) );
   var canRun = true;
-console.log($("#wordBox").html())
+  var wordsOut = false;
+  var normalWords;
+// console.log()
 
   newGame();
 
+
 //main - handles if there are button clicks
   document.onkeyup = function(event) {
-    if (canRun) {
+    if (canRun && !wordsOut) {
       var letter = String.fromCharCode(event.keyCode).toLowerCase();
       var guess = curWord.indexOf(letter);
       var guessCap = curWord.indexOf(letter.toUpperCase());
@@ -36,7 +39,7 @@ console.log($("#wordBox").html())
             curGuess[allCapIndex[i]] = letter.toUpperCase();
           }
 
-          $('#wordSpot').html(curGuess)
+          $('#word-spot').html(curGuess)
           hpBar();
           checkWin();
         } //end inner if
@@ -52,6 +55,9 @@ console.log($("#wordBox").html())
         } //end else
       } //end alphebet handler if
     } //end canRun if
+    else if (canRun && wordsOut) {
+      returnWords();
+    }
   }; //end on click function
 
   // checks to see if all letters have been guessed
@@ -62,15 +68,18 @@ console.log($("#wordBox").html())
         // alert('Winner Winner Chicken Dinner');
         canRun = false;
         caughtCount++;
-        $("#totalCaught").html(caughtCount);
+        $("#total-caught").html(caughtCount);
         pokemon[curPokemon].caught = true;
         pokeballThrow();
+        normalWords = $('#text-display').html();
+        typeWords("You caught " + pokemon[curPokemon].name+"!");
+
         setTimeout(function(){ newGame(); }, 1000);
       }    
     }
 
 function pokeballThrow () {
-  $("#imageBox").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
+  $("#image-box").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
   $("#pokeball").animate({ top: "-=240px", left: "+=345px" }, "normal", function() {
     $("#poke-gif").animate({
     width: '0px',
@@ -156,7 +165,7 @@ function newGame() {
       else {alert("Caught them All!");}
     }
     else {
-      //****************** what am i doing?
+      //****************** switchc to spans, add class to display unknown symbols
       
       curGuess =[];
       curWord = pokemon[curPokemon].name.split("");
@@ -164,8 +173,8 @@ function newGame() {
       for (var i = 0; i < curWord.length; i++) {
         curGuess.push("_");
       }
-      $('#wordSpot').html(curGuess);
-      $("#guessesRemaining").html(guessRemain);
+      $('#word-spot').html(curGuess);
+      $("#guesses-remaining").html(guessRemain);
       $("#guessed-letters").empty();
       guessCircles();
       hpBar();
@@ -208,6 +217,43 @@ function newGame() {
       $(".progress").html('<div class="progress-bar progress-bar-danger" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');     
     }
   }
+
+function typeWords(words) {
+  wordsOut = true;
+    $(function(){
+      $("#text-display").typed({
+        strings: [words],
+        typeSpeed: 1
+      });
+    });
+  setTimeout(function(){  
+    $("#icon-spot").append(
+      '<i class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" id="blink-icon"></i>'
+    );
+      blink();
+  }, 1000);
+}
+
+$(".body").on("click",function() {
+    if (wordsOut) {
+      returnWords();
+    }
+
+});
+
+  function blink (){
+     $('#blink-icon').delay(200).fadeTo(200,0.0).delay(200).fadeTo(200,1, blink);
+   }
+
+
+  function returnWords (){
+      wordsOut = false;
+      $("#icon-spot").empty();
+      guessedLet = [];
+  $("#text-display").html(normalWords);
+ }
+ 
+
 }); //end of document ready
 
 var pokemon = {

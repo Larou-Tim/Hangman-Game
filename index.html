@@ -5,12 +5,13 @@
     <title>Pokemon Hangman</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js">    </script>
     <script type="text/javascript" src="assets/javascript/game.js"></script>
-    
+    <script type="text/javascript" src="assets/javascript/typed.js"></script>
   <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
   <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   </head>
   <body>
@@ -19,11 +20,11 @@
     </div>
 
     <div class="container">
-        <div class="jumbotron" id="imageBox">
+        <div class="jumbotron" id="image-box">
             <div class="row">
                 <div class="col-sm-4">
                     <div class='row'>
-                        <h4 id='wordSpot'></h4>
+                        <h4 id='word-spot'></h4>
                     </div>
                     <div class="row">
                         <div class="progress">
@@ -54,17 +55,19 @@
         </div>
     </div>
    <div class="container">
-    <div class="jumbotron" id="wordBox">
-        <!-- <div class="row"></div> -->
-    <div class='row'>
-      <span>Pokemon Caught: </span><span id="totalCaught">0</span>
-    </div>
-    <div class='row'>
-      <span>Guesses Remaining: </span><span id='guessesRemaining'></span>
-    </div>
-    <div class='row'>
-      <span>Guessed Letters: </span><span id='guessed-letters'></span>
-    </div>
+    <div class="jumbotron" id="word-box">
+       <div id='text-display'>
+          <div class='row'>
+            <span>Pokemon Caught: </span><span id="total-caught">0</span>
+          </div>
+          <div class='row'>
+            <span>Guesses Remaining: </span><span id='guesses-remaining'></span>
+          </div>
+          <div class='row'>
+            <span>Guessed Letters: </span><span id='guessed-letters'></span>
+          </div>
+        </div>
+      <div id='icon-spot'></div>
     </div>
     </div>
    
