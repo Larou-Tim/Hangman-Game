@@ -7,7 +7,7 @@
 
 body {
 	background-color: red;
-	font-family: pokemonFont;
+	font-family: pokemonFont ;
 }
 
 .img-responsive {
@@ -80,3 +80,8 @@ body {
     left: 135px;
 }
 
+#poke-gif {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}

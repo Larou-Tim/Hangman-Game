@@ -1,182 +1,387 @@
 $(document).ready(function() {
 
+  // if not adding all pokemon, create array to contain all numbers
+  var curWord = [];
+  var curGuess = [];
+  var guessedLet = [];
+  var guessRemain;
+  var caughtCount = 0;
+  var curPokemon;
+  // console.log( ObjectLength(pokemon) );
+  var canRun = true;
+console.log($("#wordBox").html())
+
+  newGame();
+
+//main - handles if there are button clicks
+  document.onkeyup = function(event) {
+    if (canRun) {
+      var letter = String.fromCharCode(event.keyCode).toLowerCase();
+      var guess = curWord.indexOf(letter);
+      var guessCap = curWord.indexOf(letter.toUpperCase());
+      // console.log(curPokemon);
+    
+        //only allow alphbet 
+      if (event.keyCode > 64 && event.keyCode < 91) {
+
+        if (guess != -1 || guessCap != -1) {
+          var allIndex = getAllIndexes(curWord,letter);
+          var allCapIndex = getAllIndexes(curWord,letter.toUpperCase());
+
+          for (var i = 0; i < allIndex.length; i++) {
+            curGuess[allIndex[i]] = letter;
+          }
+
+          for (var i = 0; i < allCapIndex.length; i++) {
+            curGuess[allCapIndex[i]] = letter.toUpperCase();
+          }
+
+          $('#wordSpot').html(curGuess)
+          hpBar();
+          checkWin();
+        } //end inner if
+
+        else {
+          if (guessedLet.indexOf(letter) == -1) {
+          guessRemain--;
+          guessedLet.push(letter);
+          guessCircles();
+          $("#guessed-letters").append("<span>" + letter + " </span>");
+          checkLose();  
+          } //end inner if
+        } //end else
+      } //end alphebet handler if
+    } //end canRun if
+  }; //end on click function
+
+  // checks to see if all letters have been guessed
+  function checkWin() {
+      var emptyLetter = curGuess.indexOf("_");
+      // console.log(guessRemain)
+      if (emptyLetter == -1) {
+        // alert('Winner Winner Chicken Dinner');
+        canRun = false;
+        caughtCount++;
+        $("#totalCaught").html(caughtCount);
+        pokemon[curPokemon].caught = true;
+        pokeballThrow();
+        setTimeout(function(){ newGame(); }, 1000);
+      }    
+    }
+
+function pokeballThrow () {
+  $("#imageBox").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
+  $("#pokeball").animate({ top: "-=240px", left: "+=345px" }, "normal", function() {
+    $("#poke-gif").animate({
+    width: '0px',
+    height: '0px',
+      });
+
+  });
+  setTimeout(function(){ $("#poke-gif").remove(); }, 1000)
+  setTimeout(function(){ $("#pokeball").remove(); }, 1000)
+}
+
+function  checkLose() {
+  if (guessRemain == 0) {
+      console.log('The pokemon Escaped');
+      $("#poke-gif").animate({
+        width: '0px',
+        height: '0px',
+        opacity: '0.2',
+        left: "-=300px" 
+      },"normal");
+
+      setTimeout(function(){ newGame(); }, 1000);
+      
+    }
+}
+
+function guessCircles() {
+
+        $("#guessesRemaining").html(guessRemain);
+        switch (guessRemain) {
+          case 6:
+              $("#circle-1").css("background", "");
+              $("#circle-2").css("background", "");
+              $("#circle-3").css("background", "");
+              $("#circle-4").css("background", "");
+              $("#circle-5").css("background", "");
+              $("#circle-6").css("background", "");
+              break;
+          case 5:
+            $("#circle-1").css("background", "#666666");
+            break;
+          case 4:
+            $("#circle-2").css("background", "#666666");
+            break;
+          case 3:
+            $("#circle-3").css("background", "#666666");
+            break;
+          case 2:
+            $("#circle-4").css("background", "#666666");
+            break;
+          case 1:
+            $("#circle-5").css("background", "#666666");
+            break;
+          case 0:
+            $("#circle-6").css("background", "#666666");
+            break;
+          }
+}
+
+//creates new game and updates screen
+function newGame() {
+
+    var randomPokemon = Math.floor(Math.random()*50)+1;
+    // console.log(randomPokemon);
+    // var randomPokemon = 22;
+    curPokemon = 'p' + randomPokemon;
+    curWord = [];
+    curGuess = [];
+    guessedLet = [];
+    guessRemain = 6;
+
+    
+    var check = pokemon[curPokemon].caught;
+    $("#picture-spot").stop();
+    $("#picture-spot").empty();
+    $("#picture-spot").append("<img src='assets/images/"+pokemon[curPokemon].picture+ "' alt='Pokemon Picture' id='poke-gif'>")
+      canRun = true;
+    if (check) {
+      
+      if (caughtCount != ObjectLength(pokemon)) {
+        newGame();
+      }
+      else {alert("Caught them All!");}
+    }
+    else {
+      //****************** what am i doing?
+      
+      curGuess =[];
+      curWord = pokemon[curPokemon].name.split("");
+
+      for (var i = 0; i < curWord.length; i++) {
+        curGuess.push("_");
+      }
+      $('#wordSpot').html(curGuess);
+      $("#guessesRemaining").html(guessRemain);
+      $("#guessed-letters").empty();
+      guessCircles();
+      hpBar();
+    }
+  }
+// handler for finding all matches
+  function getAllIndexes(arr, val) {
+    var indexes = [], i;
+    for(i = 0; i < arr.length; i++)
+      if (arr[i] === val)
+        indexes.push(i);
+    return indexes;
+  }
+//determines how many pokemon are in the array to check if they are all caught (could probably hardcode)
+  function ObjectLength( object ) {
+    var length = 0;
+    for( var key in object ) {
+      if( object.hasOwnProperty(key) ) {
+        ++length;
+      }
+    }
+    return length;
+  };
+
+  function hpBar () {
+
+    var countRemaining = getAllIndexes(curGuess,"_").length;
+    var totalLetters = curGuess.length;
+    var hpPercent = Math.floor( countRemaining/totalLetters * 100 );
+
+    if (hpPercent > 50) {
+      $(".progress").html('<div class="progress-bar progress-bar-success" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
+
+    }
+    else if(hpPercent > 20) {
+       $(".progress").html('<div class="progress-bar progress-bar-warning" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
+    }
+
+    else if(hpPercent > 0) {
+      $(".progress").html('<div class="progress-bar progress-bar-danger" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');     
+    }
+  }
+}); //end of document ready
 
 var pokemon = {
+p1 :{
+  name: 'Bulbasaur',
+  type: 'Grass/Poison',
+  number: 1,
+  caught: false,
+  picture: 'bulbasaur.gif'
+},
+p2 :{
+    name: 'Ivysaur',
+    type: 'Grass/Poison',
+    number: 2,
+    caught: false,
+    picture: 'ivysaur.gif'
+  },
 
-    p1 :{
-      name: 'Bulbasaur',
-      type: 'Grass/Poison',
-      number: 1,
-      caught: false,
-      picture: 'bulbasaur.gif'
-     
-    },
- p2 :{
-      name: 'Ivysaur',
-      type: 'Grass/Poison',
-      number: 2,
-      caught: false,
-      picture: 'ivysaur.gif'
-      
-    },
+  p3: {
+    name: 'Venusaur',
+    type: 'Grass/Poison',
+    number: 3,
+    caught: false,
+    picture: "venusaur.gif" 
+  },
 
-    p3: {
-      name: 'Venusaur',
-      type: 'Grass/Poison',
-      number: 3,
-      caught: false,
-      picture: "venusaur.gif"
-      
-    },
+      p4: {
+    name: 'Charmander',
+    type: 'Fire',
+    number: 4,
+    caught: false,
+    picture: 'charmander.gif'
+    
+  },
 
-        p4: {
-      name: 'Charmander',
-      type: 'Fire',
-      number: 4,
-      caught: false,
-      picture: 'charmander.gif'
-      
-    },
-
-        p5: {
-      name: 'Charmeleon',
-      type: 'Fire',
-      number: 5,
-      caught: false,
-      picture: "charmeleon.gif"
-      
-    },
+      p5: {
+    name: 'Charmeleon',
+    type: 'Fire',
+    number: 5,
+    caught: false,
+    picture: "charmeleon.gif"
+    
+  },
 
 
-        p6: {
-      name: 'Charizard',
-      type: 'Fire',
-      number: 6,
-      caught: false,
-      picture: 'charizard.gif'
-    },
+      p6: {
+    name: 'Charizard',
+    type: 'Fire',
+    number: 6,
+    caught: false,
+    picture: 'charizard.gif'
+  },
 
-        p7: {
-      name: 'Squirtle',
-      type: 'Water',
-      number: 7,
-      caught: false,
-      picture: 'squirtle.gif'
-    },
+      p7: {
+    name: 'Squirtle',
+    type: 'Water',
+    number: 7,
+    caught: false,
+    picture: 'squirtle.gif'
+  },
 
-        p8: {
-      name: 'Wartortle',
-      type: 'Water',
-      number: 8,
-      caught: false,
-      picture: 'wartortle.gif'
-    },
+      p8: {
+    name: 'Wartortle',
+    type: 'Water',
+    number: 8,
+    caught: false,
+    picture: 'wartortle.gif'
+  },
 
-        p9: {
-      name: 'Blastoise',
-      type: 'Water',
-      number: 4,
-      caught: false,
-      picture: 'blastoise.gif'
-    },
+      p9: {
+    name: 'Blastoise',
+    type: 'Water',
+    number: 4,
+    caught: false,
+    picture: 'blastoise.gif'
+  },
 
-        p10: {
-      name: 'Caterpie',
-      type: 'Bug',
-      number: 10,
-      caught: false,
-      picture: 'caterpie.gif'
-    },
+      p10: {
+    name: 'Caterpie',
+    type: 'Bug',
+    number: 10,
+    caught: false,
+    picture: 'caterpie.gif'
+  },
 
-        p11: {
-      name: 'Metapod',
-      type: 'Bug',
-      number: 11,
-      caught: false,
-      picture: 'metapod.gif'
-    },
+      p11: {
+    name: 'Metapod',
+    type: 'Bug',
+    number: 11,
+    caught: false,
+    picture: 'metapod.gif'
+  },
 
-        p12: {
-      name: 'Butterfree',
-      type: 'Bug/Flying',
-      number: 12,
-      caught: false,
-      picture: 'butterfree.gif'
-    },
+      p12: {
+    name: 'Butterfree',
+    type: 'Bug/Flying',
+    number: 12,
+    caught: false,
+    picture: 'butterfree.gif'
+  },
 
-        p13: {
-      name: 'Weedle',
-      type: 'Bug/Poison',
-      number: 13,
-      caught: false,
-      picture: 'weedle.gif'
-    },
+      p13: {
+    name: 'Weedle',
+    type: 'Bug/Poison',
+    number: 13,
+    caught: false,
+    picture: 'weedle.gif'
+  },
 
-        p14: {
-      name: 'Kakuna',
-      type: 'Bug/Poison',
-      number: 14,
-      caught: false,
-      picture: 'kakuna.gif'
-    },
+      p14: {
+    name: 'Kakuna',
+    type: 'Bug/Poison',
+    number: 14,
+    caught: false,
+    picture: 'kakuna.gif'
+  },
 
-        p15: {
-      name: 'Beedrill',
-      type: 'Bug/Poison',
-      number: 15,
-      caught: false,
-      picture: 'beedrill.gif'
-    },
-
-
-        p16: {
-      name: 'Pidgey',
-      type: 'Normal/Flying',
-      number: 16,
-      caught: false,
-      picture: 'pidgey.gif'
-    },
+      p15: {
+    name: 'Beedrill',
+    type: 'Bug/Poison',
+    number: 15,
+    caught: false,
+    picture: 'beedrill.gif'
+  },
 
 
-        p17: {
-      name: 'Pidgeotto',
-      type: 'Normal/Flying',
-      number: 17,
-      caught: false,
-      picture: 'pidgeotto.gif'
-    },
+      p16: {
+    name: 'Pidgey',
+    type: 'Normal/Flying',
+    number: 16,
+    caught: false,
+    picture: 'pidgey.gif'
+  },
 
-        p18: {
-      name: 'Pidgeot',
-      type: 'Normal/Flying',
-      number: 18,
-      caught: false,
-      picture: 'pidgeot.gif'
-    },
 
-        p19: {
-      name: 'Rattata',
-      type: 'Normal',
-      number: 19,
-      caught: false,
-      picture: 'rattata.gif'
-    },
+      p17: {
+    name: 'Pidgeotto',
+    type: 'Normal/Flying',
+    number: 17,
+    caught: false,
+    picture: 'pidgeotto.gif'
+  },
 
-        p20: {
-      name: 'Raticate',
-      type: 'Normal',
-      number: 20,
-      caught: false,
-      picture: 'raticate.gif'
-    },
+      p18: {
+    name: 'Pidgeot',
+    type: 'Normal/Flying',
+    number: 18,
+    caught: false,
+    picture: 'pidgeot.gif'
+  },
 
-      p21: {
-      name: 'Spearow',
-      type: 'Normal/Flying',
-      number: 21,
-      caught: false,
-      picture: "spearow.gif"
-    },
+      p19: {
+    name: 'Rattata',
+    type: 'Normal',
+    number: 19,
+    caught: false,
+    picture: 'rattata.gif'
+  },
+
+      p20: {
+    name: 'Raticate',
+    type: 'Normal',
+    number: 20,
+    caught: false,
+    picture: 'raticate.gif'
+  },
+
+    p21: {
+    name: 'Spearow',
+    type: 'Normal/Flying',
+    number: 21,
+    caught: false,
+    picture: "spearow.gif"
+  },
 
   p22: {
     name: 'Fearow',
@@ -416,225 +621,7 @@ var pokemon = {
   //   type: 'Normal/Flying',
   //   number: 21,
   //   caught: false,
+  //   picture: ".gif"
   // },
 
   }
-  // if not adding all pokemon, create array to contain all numbers
-  var curWord = [];
-  var curGuess = [];
-  var guessedLet = [];
-  var guessRemain;
-  var caughtCount = 0;
-  var lastWord = -1;
-  var curPokemon;
-  // console.log( ObjectLength(pokemon) );
-
-  newGame();
-
-
-//main - handles if there are button clicks
-  document.onkeyup = function(event) {
-
-    var letter = String.fromCharCode(event.keyCode).toLowerCase();
-    var guess = curWord.indexOf(letter);
-    var guessCap = curWord.indexOf(letter.toUpperCase());
-    console.log(curPokemon);
-    
-
-    if (guess != -1 || guessCap != -1) {
-      var allIndex = getAllIndexes(curWord,letter);
-      var allCapIndex = getAllIndexes(curWord,letter.toUpperCase());
-
-      for (var i = 0; i < allIndex.length; i++) {
-        curGuess[allIndex[i]] = letter;
-      }
-
-      for (var i = 0; i < allCapIndex.length; i++) {
-        curGuess[allCapIndex[i]] = letter.toUpperCase();
-      }
-
-      $('#wordSpot').html(curGuess)
-      hpBar();
-      checkWin();
-      // checkLose();
-    }
-
-    else {
-      if (guessedLet.indexOf(letter) == -1) {
-      guessRemain--;
-      guessedLet.push(letter);
-      guessCircles();
-      $("#guessed-letters").append("<span>" + letter + " </span>");
-      checkLose();  
-        }
-    }
-  };
-
-// checks to see if all letters have been guessed
-  function checkWin() {
-    var emptyLetter = curGuess.indexOf("_");
-    // console.log(guessRemain)
-    if (emptyLetter == -1) {
-      // alert('Winner Winner Chicken Dinner');
-      caughtCount++;
-      $("#totalCaught").html(caughtCount);
-      pokemon[curPokemon].caught = true;
-      pokeballThrow();
-      setTimeout(function(){ newGame(); }, 1000);
-    }    
-  }
-
-function pokeballThrow () {
-  $("#imageBox").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
-  $("#pokeball").animate({ top: "-=200px", left: "+=300px" }, "normal", function() {
-    $("#poke-gif").animate({
-    width: '0px',
-    height: '0px',
-        // opacity: '0.2'
-      });
-
-  });
-  setTimeout(function(){ $("#poke-gif").remove(); }, 1000)
-  setTimeout(function(){ $("#pokeball").remove(); }, 1000)
-}
-
-function  checkLose() {
-  if (guessRemain == 0) {
-      console.log('The pokemon Escaped');
-      // $("#poke-gif").animate({
-      //   width: '0px',
-      //   height: '0px',
-      //   // opacity: '0.2'
-      // });
-
-      // $("#poke-gif").remove(); 
-      $("#poke-gif").slideUp(300).delay(800);
-
-      // setTimeout(function(){ $("#picture-spot").empty(); }, 1000)
-
-      setTimeout(function(){ newGame(); }, 500);
-      
-    }
-}
-
-
-
-function guessCircles() {
-
-        $("#guessesRemaining").html(guessRemain);
-        switch (guessRemain) {
-          case 6:
-              $("#circle-1").css("background", "");
-              $("#circle-2").css("background", "");
-              $("#circle-3").css("background", "");
-              $("#circle-4").css("background", "");
-              $("#circle-5").css("background", "");
-              $("#circle-6").css("background", "");
-              break;
-          case 5:
-            $("#circle-1").css("background", "#666666");
-            break;
-          case 4:
-            $("#circle-2").css("background", "#666666");
-            break;
-          case 3:
-            $("#circle-3").css("background", "#666666");
-            break;
-          case 2:
-            $("#circle-4").css("background", "#666666");
-            break;
-          case 1:
-            $("#circle-5").css("background", "#666666");
-            break;
-          case 0:
-            $("#circle-6").css("background", "#666666");
-            break;
-          }
-}
-
-//creates new game and updates screen
-  function newGame() {
-
-    var randomPokemon = Math.floor(Math.random()*50)+1;
-    // console.log(randomPokemon);
-    // var randomPokemon = 22;
-    curPokemon = 'p' + randomPokemon;
-    curWord = [];
-    curGuess = [];
-    guessedLet = [];
-    guessRemain = 6;
-    
-    var check = pokemon[curPokemon].caught;
-    $("#picture-spot").stop();
-    $("#picture-spot").empty();
-    $("#picture-spot").append("<img src='assets/images/"+pokemon[curPokemon].picture+ "' alt='Pokemon Picture' id='poke-gif'>")
-    $("#picture-spot").stop();
-    if (check) {
-      
-      if (caughtCount != ObjectLength(pokemon)) {
-        newGame();
-      }
-      else {alert("Caught them All!");}
-    }
-    else {
-      
-      curGuess =[];
-      // var curName = 
-      curWord = pokemon[curPokemon].name.split("");
-      for (var i = 0; i < curWord.length; i++) {
-        curGuess.push("_");
-      }
-      $('#wordSpot').html(curGuess)
-      $("#guessesRemaining").html(guessRemain);
-      $("#guessed-letters").empty();
-      guessCircles();
-      hpBar();
-    }
-  }
-// handler for finding all matches
-  function getAllIndexes(arr, val) {
-    var indexes = [], i;
-    for(i = 0; i < arr.length; i++)
-      if (arr[i] === val)
-        indexes.push(i);
-    return indexes;
-  }
-//determines how many pokemon are in the array to check if they are all caught (could probably hardcode)
-  function ObjectLength( object ) {
-    var length = 0;
-    for( var key in object ) {
-      if( object.hasOwnProperty(key) ) {
-        ++length;
-      }
-    }
-    return length;
-  };
-
-  function hpBar () {
-    // console.log('x');
-    var countRemaining = getAllIndexes(curGuess,"_").length;
-    var totalLetters = curGuess.length;
-    var hpPercent = Math.floor( countRemaining/totalLetters * 100 );
-    // console.log(hpPercent);
-
-    if (hpPercent > 50) {
-      $(".progress").html('<div class="progress-bar progress-bar-success" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
-
-    }
-    else if(hpPercent > 20) {
-       $(".progress").html('<div class="progress-bar progress-bar-warning" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
-    }
-
-    else if(hpPercent > 0) {
-      $(".progress").html('<div class="progress-bar progress-bar-danger" style="width:' + hpPercent +'%"><span class="sr-only"></span></div>');
-        
-    }
-
-  }
-    
-  
-
-}); //end of document ready
-
-
- 
