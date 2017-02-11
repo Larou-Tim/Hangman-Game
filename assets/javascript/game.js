@@ -4,13 +4,18 @@ $(document).ready(function() {
   var curWord = [];
   var curGuess = [];
   var guessedLet = [];
-  var guessRemain;
+  var guessRemain = 6;
   var caughtCount = 0;
   var curPokemon;
   // console.log( ObjectLength(pokemon) );
   var canRun = true;
+  var needGame = false;
   var wordsOut = false;
-  var normalWords;
+  var normalWords = '<div class="row"><span>Pokemon Caught: </span><span id="total-caught">' + caughtCount +
+                  '</span></div><div class="row"><span>Guesses Remaining: ' +  guessRemain +'</span>' + 
+                  '<span id="guesses-remaining"></span></div>' +
+                  '<div class="row"><span>Guessed Letters: </span><span ' +
+                   'id="guessed-letters"></span></div>'
 // console.log()
 
   newGame();
@@ -18,13 +23,14 @@ $(document).ready(function() {
 
 //main - handles if there are button clicks
   document.onkeyup = function(event) {
-    if (canRun && !wordsOut) {
+    console.log(caughtCount);
+    if (canRun && !wordsOut && !needGame) {
       var letter = String.fromCharCode(event.keyCode).toLowerCase();
       var guess = curWord.indexOf(letter);
       var guessCap = curWord.indexOf(letter.toUpperCase());
       // console.log(curPokemon);
     
-        //only allow alphbet 
+        //only allow alphbet - removed for mr mine/farfetchd
       if (event.keyCode > 64 && event.keyCode < 91) {
 
         if (guess != -1 || guessCap != -1) {
@@ -55,8 +61,15 @@ $(document).ready(function() {
         } //end else
       } //end alphebet handler if
     } //end canRun if
-    else if (canRun && wordsOut) {
-      returnWords();
+    else if (canRun && wordsOut && !needGame) {
+      returnWords(normalWords);
+    }
+
+    else if (!canRun && wordsOut && needGame) {
+        returnWords(normalWords);
+        setTimeout(function(){ newGame(); }, 1000);
+        needGame = false;
+
     }
   }; //end on click function
 
@@ -68,13 +81,11 @@ $(document).ready(function() {
         // alert('Winner Winner Chicken Dinner');
         canRun = false;
         caughtCount++;
-        $("#total-caught").html(caughtCount);
         pokemon[curPokemon].caught = true;
         pokeballThrow();
-
-        typeWords("You caught " + pokemon[curPokemon].name+"!","Pokedex says: " + pokemon[curPokemon].pokedex);
-
-        setTimeout(function(){ newGame(); }, 1000);
+        typeWords("You caught " + pokemon[curPokemon].name+"! <br />Pokedex says: " + pokemon[curPokemon].pokedex);
+        needGame = true;
+        // setTimeout(function(){ newGame(); }, 3000);
       }    
     }
 
@@ -142,27 +153,25 @@ function guessCircles() {
 //creates new game and updates screen
 function newGame() {
 
-    var randomPokemon = Math.floor(Math.random()*50)+1;
-    console.log(randomPokemon);
+    var randomPokemon = 83 //Math.floor(Math.random()*150)+1;
+    // console.log(randomPokemon);
     // var randomPokemon = 1;
     curPokemon = 'p' + randomPokemon;
     curWord = [];
-    curGuess = [];
     guessedLet = [];
     guessRemain = 6;
 
-    
-    var check = pokemon[curPokemon].caught;
+    // var check = pokemon[curPokemon].caught;
+
     $("#picture-spot").stop();
     $("#picture-spot").empty();
-    $("#picture-spot").append("<img src='assets/images/"+pokemon[curPokemon].picture+ "' alt='Pokemon Picture' id='poke-gif'>")
-      canRun = true;
-    if (check) {
+    $("#picture-spot").append("<img src='assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
+    if (pokemon[curPokemon].caught) {
       
       if (caughtCount != ObjectLength(pokemon)) {
         newGame();
       }
-      else {alert("Caught them All!");}
+      else {alert("Caught them All!");} // add mew and special win handler
     }
     else {
       //****************** switchc to spans, add class to display unknown symbols
@@ -177,7 +186,9 @@ function newGame() {
       $("#guesses-remaining").html(guessRemain);
       $("#guessed-letters").empty();
 
-      typeWords("Wild pokemon appeared! Can you guess it's name? Press any key to continue.");
+      typeWords("Wild pokemon appeared! Can you guess it's name? <br /> Press any key to continue.");
+      canRun = true;
+      console.log(canRun + ' ' + needGame + " " + wordsOut);
       guessCircles();
       hpBar();
     }
@@ -223,6 +234,7 @@ function newGame() {
 function typeWords(words) {
   // console.log(words);
   // normalWords = $('#text-display').html();
+  canRun = false;
   wordsOut = true;
 
 
@@ -238,15 +250,14 @@ function typeWords(words) {
       );
         blink();
     }, 1000);
-  
 }
 
-$(".body").on("click",function() {
-    if (wordsOut) {
-      returnWords();
-    }
+// $(".body").on("click",function() {
+//     if (wordsOut) {
+//       returnWords();
+//     }
 
-});
+// });
 
   function blink (){
      $('#blink-icon').delay(200).fadeTo(200,0.0).delay(200).fadeTo(200,1, blink);
@@ -256,18 +267,15 @@ $(".body").on("click",function() {
   function returnWords (){
     wordsOut = false;
     $("#icon-spot").empty();
-    guessedLet = [];
+    // guessedLet = [];
     $("#text-display").html(normalWords);
+    $("#total-caught").html(caughtCount);
  }
  
 
 }); //end of document ready
 
-var normalWords = '<div class="row"><span>Pokemon Caught: </span><span id="total-caught">' +
-                  '</span></div><div class="row"><span>Guesses Remaining: </span>' + 
-                  '<span id="guesses-remaining"></span></div>'
-                  '<div class="row"><span>Guessed Letters: </span><span' +
-                   'id="guessed-letters"></span></div>"'
+
 var pokemon = {
 p1 :{
   name: 'Bulbasaur',
@@ -949,9 +957,9 @@ p2 :{
     picture: "magneton.gif",
     pokedex:"Formed by several MAGNEMITEs linked together. They frequently appear when sunspots flare up."
   },
-
+//********
   p83: {
-    name: 'Farfetchd',
+    name: "Farfetchd",
     caught: false,
     picture: "farfetchd.gif",
     pokedex:"The sprig of green onions it holds is its weapon. It is used much like a metal sword."
@@ -1079,6 +1087,364 @@ p2 :{
     caught: false,
     picture: "voltorb.gif",
     pokedex:"Usually found in power plants. Easily mistaken for a POKé BALL, they have zapped many people."
+  },
+
+  p101: {
+    name: 'Electrode',
+    caught: false,
+    picture: "electrode.gif",
+    pokedex:"It stores electric energy under very high pressure. It often explodes with little or no provocation."
+  },
+
+  p102: {
+    name: 'Exeggcute',
+    caught: false,
+    picture: "exeggcute.gif",
+    pokedex:"Often mistaken for eggs. When disturbed, they quickly gather and attack in swarms."
+  },
+
+  p103: {
+    name: 'Exeggutor',
+    caught: false,
+    picture: "exeggutor.gif",
+    pokedex:"Legend has it that on rare occasions, one of its heads will drop off and continue on as an EXEGGCUTE."
+  },
+
+  p104: {
+    name: 'Cubone',
+    caught: false,
+    picture: "cubone.gif",
+    pokedex:"Wears the skull of its deceased mother. Its cries echo inside the skull and come out as a sad melody."
+  },
+
+  p105: {
+    name: 'Marowak',
+    caught: false,
+    picture: "marowak.gif",
+    pokedex:"The bone it holds is its key weapon. It throws the bone skillfully like a boomerang to KO targets."
+  },
+
+  p106: {
+    name: 'Hitmonlee',
+    caught: false,
+    picture: "Hitmonlee.gif",
+    pokedex:"When in a hurry, its legs lengthen progressively. It runs smoothly with extra long, loping strides."
+  },
+
+  p107: {
+    name: 'Hitmonchan',
+    caught: false,
+    picture: "hitmonchan.gif",
+    pokedex:"While apparently doing nothing, it fires punches in lightning fast volleys that are impossible to see."
+  },
+
+  p108: {
+    name: 'Lickitung',
+    caught: false,
+    picture: "lickitung.gif",
+    pokedex:"Its tongue can be extended like a chameleon's. It leaves a tingling sensation when it licks enemies."
+  },
+
+  p109: {
+    name: 'Koffing',
+    caught: false,
+    picture: "koffing.gif",
+    pokedex:"Because it stores several kinds of toxic gases in its body, it is prone to exploding without warning."
+  },
+
+  p110: {
+    name: 'Weezing',
+    caught: false,
+    picture: "weezing.gif",
+    pokedex:"It lives and grows by absorbing dust, germs and poison gases that are contained in toxic waste and garbage."
+  },
+
+  p111: {
+    name: 'Rhyhorn',
+    caught: false,
+    picture: "rhyhorn.gif",
+    pokedex:"Its massive bones are 1000 times harder than human bones. It can easily knock a trailer flying."
+  },
+
+  p112: {
+    name: 'Rhydon',
+    caught: false,
+    picture: "rhydon.gif",
+    pokedex:"Protected by an armor-like hide, it is capable of living in molten lava of 3,600 degrees."
+  },
+
+  p113: {
+    name: 'Chansey',
+    caught: false,
+    picture: "chansey.gif",
+    pokedex:"A rare and elusive POKéMON that is said to bring happiness to those who manage to get it."
+  },
+
+  p114: {
+    name: 'Tangela',
+    caught: false,
+    picture: "tangela.gif",
+    pokedex:"The whole body is swathed with wide vines that are similar to seaweed. Its vines shake as it walks."
+  },
+
+  p115: {
+    name: 'Kangaskhan',
+    caught: false,
+    picture: "kangaskhan.gif",
+    pokedex:"The infant rarely ventures out of its mother's protective pouch until it is 3 years old."
+  },
+
+  p116: {
+    name: 'Horsea',
+    caught: false,
+    picture: "horsea.gif",
+    pokedex:"Known to shoot down flying bugs with precision blasts of ink from the surface of the water."
+  },
+
+  p117: {
+    name: 'Seadra',
+    caught: false,
+    picture: "seadra.gif",
+    pokedex:"Capable of swimming backwards by rapidly flapping its wing-like pectoral fins and stout tail."
+  },
+
+  p118: {
+    name: 'Goldeen',
+    caught: false,
+    picture: "goldeen.gif",
+    pokedex:"Its tail fin billows like an elegant ballroom dress, giving it the nickname of the Water Queen."
+  },
+
+  p119: {
+    name: 'Seaking',
+    caught: false,
+    picture: "seaking.gif",
+    pokedex:"In the autumn spawning season, they can be seen swimming powerfully up rivers and creeks."
+  },
+
+  p120: {
+    name: 'Staryu',
+    caught: false,
+    picture: "staryu.gif",
+    pokedex:"An enigmatic POKéMON that can effortlessly regenerate any appendage it loses in battle."
+  },
+
+  p121: {
+    name: 'Starmie',
+    caught: false,
+    picture: "starmie.gif",
+    pokedex:"Its central core glows with the seven colors of the rainbow. Some people value the core as a gem."
+  },
+//********
+  p122: {
+    name: 'MrMine',
+    caught: false,
+    picture: "mrmine.gif",
+    pokedex:"If interrupted while it is miming, it will slap around the offender with its broad hands."
+  },
+
+  p123: {
+    name: 'Scyther',
+    caught: false,
+    picture: "scyther.gif",
+    pokedex:"With ninja-like agility and speed, it can create the illusion that there is more than one."
+  },
+
+  p124: {
+    name: 'Jynx',
+    caught: false,
+    picture: "jynx.gif",
+    pokedex:"It seductively wiggles its hips as it walks. It can cause people to dance in unison with it."
+  },
+
+  p125: {
+    name: 'Electabuzz',
+    caught: false,
+    picture: "electabuzz.gif",
+    pokedex:"Normally found near power plants, they can wander away and cause major blackouts in cities."
+  },
+
+  p126: {
+    name: 'Magmar',
+    caught: false,
+    picture: "magmar.gif",
+    pokedex:"Its body always burns with an orange glow that enables it to hide perfectly among flames."
+  },
+
+  p127: {
+    name: 'Pinsir',
+    caught: false,
+    picture: "pinsir.gif",
+    pokedex:"If it fails to crush the victim in its pincers, it will swing it around and toss it hard."
+  },
+
+  p128: {
+    name: 'Tauros',
+    caught: false,
+    picture: "tauros.gif",
+    pokedex:"When it targets an enemy, it charges furiously while whipping its body with its long tails."
+  },
+
+  p129: {
+    name: 'Magikarp',
+    caught: false,
+    picture: "magikarp.gif",
+    pokedex:"In the distant past, it was somewhat stronger than the horribly weak descendants that exist today."
+  },
+
+  p130: {
+    name: 'Gyarados',
+    caught: false,
+    picture: "gyarados.gif",
+    pokedex:"Rarely seen in the wild. Huge and vicious, it is capable of destroying entire cities in a rage."
+  },
+
+
+  p131: {
+    name: 'Lapras',
+    caught: false,
+    picture: "lapras.gif",
+    pokedex:"A POKéMON that has been overhunted almost to extinction. It can ferry people across the water."
+  },
+
+  p132: {
+    name: 'Ditto',
+    caught: false,
+    picture: "ditto.gif",
+    pokedex:"Capable of copying an enemy's genetic code to instantly transform itself into a duplicate of the enemy."
+  },
+
+  p133: {
+    name: 'Eevee',
+    caught: false,
+    picture: "eevee.gif",
+    pokedex:"Its genetic code is irregular. It may mutate if it is exposed to radiation from element STONEs."
+  },
+
+  p134: {
+    name: 'Vaporeon',
+    caught: false,
+    picture: "vaporeon.gif",
+    pokedex:"Lives close to water. Its long tail is ridged with a fin which is often mistaken for a mermaid's."
+  },
+
+  p135: {
+    name: 'Jolteon',
+    caught: false,
+    picture: "jolteon.gif",
+    pokedex:"It accumulates negative ions in the atmosphere to blast out 10000-volt lightning bolts."
+  },
+
+  p136: {
+    name: 'Flareon',
+    caught: false,
+    picture: "flareon.gif",
+    pokedex:"When storing thermal energy in its body, its temperature could soar to over 1600 degrees."
+  },
+
+  p137: {
+    name: 'Porygon',
+    caught: false,
+    picture: "porygon.gif",
+    pokedex:"A POKéMON that consists entirely of programming code. Capable of moving freely in cyberspace."
+  },
+
+  p138: {
+    name: 'Omanyte',
+    caught: false,
+    picture: "omanyte.gif",
+    pokedex:"Although long extinct, in rare cases, it can be genetically resurrected from fossils."
+  },
+
+  p139: {
+    name: 'Omastar',
+    caught: false,
+    picture: "omastar.gif",
+    pokedex:"A prehistoric POKéMON that died out when its heavy shell made it impossible to catch prey."
+  },
+
+  p140: {
+    name: 'Kabuto',
+    caught: false,
+    picture: "kabuto.gif",
+    pokedex:"A POKéMON that was resurrected from a fossil found in what was once the ocean floor eons ago."
+  },
+
+  p141: {
+    name: 'Kabutops',
+    caught: false,
+    picture: "kabutops.gif",
+    pokedex:"Its sleek shape is perfect for swimming. It slashes prey with its claws and drains the body fluids."
+  },
+
+  p142: {
+    name: 'Aerodactyl',
+    caught: false,
+    picture: "aerodactyl.gif",
+    pokedex:"A ferocious, prehistoric POKéMON that goes for the enemy's throat with its serrated saw-like fangs."
+  },
+
+  p143: {
+    name: 'Snorlax',
+    caught: false,
+    picture: "snorlax.gif",
+    pokedex:"Very lazy. Just eats and sleeps. As its rotund bulk builds, it becomes steadily more slothful."
+  },
+
+  p144: {
+    name: 'Articuno',
+    caught: false,
+    picture: "articuno.gif",
+    pokedex:"A legendary bird POKéMON that is said to appear to doomed people who are lost in icy mountains."
+  },
+
+  p145: {
+    name: 'Zapdos',
+    caught: false,
+    picture: "zapdos.gif",
+    pokedex:"A legendary bird POKéMON that is said to appear from clouds while dropping enormous lightning bolts."
+  },
+
+  p146: {
+    name: 'Moltres',
+    caught: false,
+    picture: "moltres.gif",
+    pokedex:"Known as the legendary bird of fire. Every flap of its wings creates a dazzling flash of flames."
+  },
+
+  p147: {
+    name: 'Dratini',
+    caught: false,
+    picture: "dratini.gif",
+    pokedex:"Long considered a mythical POKéMON until recently when a small colony was found living underwater."
+  },
+
+  p148: {
+    name: 'Dragonair',
+    caught: false,
+    picture: "dragonair.gif",
+    pokedex:"A mystical POKéMON that exudes a gentle aura. Has the ability to change climate conditions."
+  },
+
+  p149: {
+    name: 'Dragonite',
+    caught: false,
+    picture: "dragonite.gif",
+    pokedex:"An extremely rarely seen marine POKéMON. Its intelligence is said to match that of humans."
+  },
+
+  p150: {
+    name: 'Mewtwo',
+    caught: false,
+    picture: "mewtwo.gif",
+    pokedex:"It was created by a scientist after years of horrific gene splicing and DNA engineering experiments."
+  },
+
+  p151: {
+    name: 'Mew',
+    caught: false,
+    picture: "mew.gif",
+    pokedex:"So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide."
   },
 
 
