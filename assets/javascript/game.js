@@ -19,6 +19,8 @@ $(document).ready(function() {
                    'id="guessed-letters"></span></div>'
 // console.log()
 
+
+
   newGame();
 
 
@@ -40,13 +42,19 @@ $(document).ready(function() {
 
           for (var i = 0; i < allIndex.length; i++) {
             curGuess[allIndex[i]] = letter;
+            $("#letter-" +allIndex[i] ).removeClass("unknown-sybmol");
+            $("#letter-" +allIndex[i] ).html("<span>" + letter + "</span>");
+
           }
 
           for (var i = 0; i < allCapIndex.length; i++) {
             curGuess[allCapIndex[i]] = letter.toUpperCase();
+            $("#letter-" +allCapIndex[i] ).removeClass("unknown-sybmol");
+            $("#letter-" +allCapIndex[i] ).html("<span>" + letter.toUpperCase() + "</span>");
           }
 
-          $('#word-spot').html(curGuess)
+
+          // $('#word-spot').html(curGuess)
           hpBar();
           checkWin();
         } //end inner if
@@ -92,111 +100,123 @@ $(document).ready(function() {
       }    
     }
 
-function pokeballThrow () {
-  $("#image-box").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
-  $("#pokeball").animate({ top: "-=240px", left: "+=345px" }, "normal", function() {
-    $("#poke-gif").animate({
-    width: '0px',
-    height: '0px',
-      });
-
-  });
-  setTimeout(function(){ $("#poke-gif").remove(); }, 1000)
-  setTimeout(function(){ $("#pokeball").remove(); }, 1000)
-}
-
-function  checkLose() {
-  if (guessRemain == 0) {
-      console.log('The pokemon Escaped');
+  function pokeballThrow () {
+    $("#image-box").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
+    $("#pokeball").animate({ top: "-=240px", left: "+=345px" }, "normal", function() {
       $("#poke-gif").animate({
-        width: '0px',
-        height: '0px',
-        opacity: '0.2',
-        left: "-=300px" 
-      },"normal");
+      width: '0px',
+      height: '0px',
+        });
 
-      setTimeout(function(){ newGame(); }, 1000);
-      
-    }
-}
+    });
+    setTimeout(function(){ $("#poke-gif").remove(); }, 1000)
+    setTimeout(function(){ $("#pokeball").remove(); }, 1000)
+  }
 
-function guessCircles() {
+  function  checkLose() {
+    if (guessRemain == 0) {
+        // console.log('The pokemon Escaped');
+        $("#poke-gif").animate({
+          width: '0px',
+          height: '0px',
+          opacity: '0.2',
+          left: "-=300px" 
+        },"normal");
 
-        $("#guessesRemaining").html(guessRemain);
-        switch (guessRemain) {
-          case 6:
-              $("#circle-1").css("background", "");
-              $("#circle-2").css("background", "");
-              $("#circle-3").css("background", "");
-              $("#circle-4").css("background", "");
-              $("#circle-5").css("background", "");
-              $("#circle-6").css("background", "");
+      typeWords("The pokemon escaped! <br /> You will have to find that one again."); 
+      setTimeout(function(){ doNothing = false;}, 4000);
+      needGame = true;
+      // setTimeout(function(){ newGame(); }, 4000);
+        
+      }
+  }
+
+  function guessCircles() {
+
+          $("#guessesRemaining").html(guessRemain);
+          switch (guessRemain) {
+            case 6:
+                $("#circle-1").css("background", "");
+                $("#circle-2").css("background", "");
+                $("#circle-3").css("background", "");
+                $("#circle-4").css("background", "");
+                $("#circle-5").css("background", "");
+                $("#circle-6").css("background", "");
+                break;
+            case 5:
+              $("#circle-1").css("background", "#666666");
               break;
-          case 5:
-            $("#circle-1").css("background", "#666666");
-            break;
-          case 4:
-            $("#circle-2").css("background", "#666666");
-            break;
-          case 3:
-            $("#circle-3").css("background", "#666666");
-            break;
-          case 2:
-            $("#circle-4").css("background", "#666666");
-            break;
-          case 1:
-            $("#circle-5").css("background", "#666666");
-            break;
-          case 0:
-            $("#circle-6").css("background", "#666666");
-            break;
-          }
-}
+            case 4:
+              $("#circle-2").css("background", "#666666");
+              break;
+            case 3:
+              $("#circle-3").css("background", "#666666");
+              break;
+            case 2:
+              $("#circle-4").css("background", "#666666");
+              break;
+            case 1:
+              $("#circle-5").css("background", "#666666");
+              break;
+            case 0:
+              $("#circle-6").css("background", "#666666");
+              break;
+            }
+  }
 
 //creates new game and updates screen
-function newGame() {
+  function newGame() {
 
-    var randomPokemon = Math.floor(Math.random()*150)+1;
-    // console.log(randomPokemon);
-    // var randomPokemon = 1;
-    curPokemon = 'p' + randomPokemon;
-    curWord = [];
-    guessedLet = [];
-    guessRemain = 6;
+      var randomPokemon = Math.floor(Math.random()*150)+1;
+      // console.log(randomPokemon);
+      // var randomPokemon = 1;
+      curPokemon = 'p' + randomPokemon;
+      curWord = [];
+      guessedLet = [];
+      guessRemain = 6;
 
-    // var check = pokemon[curPokemon].caught;
-
-    $("#picture-spot").stop();
-    $("#picture-spot").empty();
-    $("#picture-spot").append("<img src='assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
-    if (pokemon[curPokemon].caught) {
-      
-      if (caughtCount != ObjectLength(pokemon)) {
-        newGame();
+      $('#word-spot').html("");
+      $("#picture-spot").stop();
+      $("#picture-spot").empty();
+      $("#picture-spot").append("<img src='assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
+      if (pokemon[curPokemon].caught) {
+        
+        if (caughtCount != ObjectLength(pokemon)) {
+          newGame();
+        }
+        else {alert("Caught them All!");} // add mew and special win handler
       }
-      else {alert("Caught them All!");} // add mew and special win handler
-    }
-    else {
-      //****************** switchc to spans, add class to display unknown symbols
-      
-      curGuess =[];
-      curWord = pokemon[curPokemon].name.split("");
+      else {
+        //****************** switchc to spans, add class to display unknown symbols
+        //class='unknown-sybmol'
+        
+        curGuess =[];
+        curWord = pokemon[curPokemon].name.split("");
 
-      for (var i = 0; i < curWord.length; i++) {
-        curGuess.push("_");
+        for (var i = 0; i < curWord.length; i++) {
+          //creates an array to track letters guessed, and chooses random letter to show user 
+          //(random letter because the unknown could be used to cheat)
+          
+          curGuess.push("_");
+          var randomLetter;
+          randomLetter =Math.floor( Math.random() * (90 - 65) + 65 );
+          // $('#word-spot').append("<span class='unknown-sybmol' id='letter-" + i + "'>" + curWord[i].toLowerCase() + "</span>")
+          $('#word-spot').append("<span class='unknown-sybmol' id='letter-" + i + "'>" + String.fromCharCode(randomLetter).toLowerCase() + "</span>")
+        
+        }
+        // $('#word-spot').html(curGuess);
+        $("#guesses-remaining").html(guessRemain);
+        $("#guessed-letters").empty();
+        // $('#word-spot').empty();
+        typeWords("Wild pokemon appeared! Can you guess it's name? <br /> Press any key to continue.");
+        setTimeout(function(){ canRun = true;}, 3500);
+        // console.log(canRun + ' ' + needGame + " " + wordsOut);
+        guessCircles();
+        hpBar();
       }
-      $('#word-spot').html(curGuess);
-      $("#guesses-remaining").html(guessRemain);
-      $("#guessed-letters").empty();
-
-      typeWords("Wild pokemon appeared! Can you guess it's name? <br /> Press any key to continue.");
-      setTimeout(function(){ canRun = true;}, 4000);
-      // console.log(canRun + ' ' + needGame + " " + wordsOut);
-      guessCircles();
-      hpBar();
     }
-  }
-// handler for finding all matches
+
+// handler for finding all matches if a letter appears multiple times
   function getAllIndexes(arr, val) {
     var indexes = [], i;
     for(i = 0; i < arr.length; i++)
@@ -204,6 +224,7 @@ function newGame() {
         indexes.push(i);
     return indexes;
   }
+
 //determines how many pokemon are in the array to check if they are all caught (could probably hardcode)
   function ObjectLength( object ) {
     var length = 0;
@@ -215,6 +236,7 @@ function newGame() {
     return length;
   };
 
+//calulates pokemon current health based off of unknown letters to known letters
   function hpBar () {
 
     var countRemaining = getAllIndexes(curGuess,"_").length;
@@ -234,47 +256,41 @@ function newGame() {
     }
   }
 
-function typeWords(words) {
-  // console.log(words);
-  // normalWords = $('#text-display').html();
-  canRun = false;
-  wordsOut = true;
+// creates the diaolgue box and typewriter 
+  function typeWords(words) {
+    // console.log(words);
+    // normalWords = $('#text-display').html();
+    canRun = false;
+    wordsOut = true;
 
-
-      $(function(){
-        $("#text-display").typed({
-          strings: [words],
-          typeSpeed: 1
+        $(function(){
+          $("#text-display").typed({
+            strings: [words],
+            typeSpeed: 1
+          });
         });
-      });
-    setTimeout(function(){  
-      $("#icon-spot").append(
-        '<i class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" id="blink-icon"></i>'
-      );
-        blink();
-    }, 1000);
-}
+      setTimeout(function(){  
+        $("#icon-spot").append(
+          '<i class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" id="blink-icon"></i>'
+        );
+          blink();
+      }, 1000);
+  }
 
-// $(".body").on("click",function() {
-//     if (wordsOut) {
-//       returnWords();
-//     }
-
-// });
-
+//allows the glyph to blink like the actual game
   function blink (){
-     $('#blink-icon').delay(200).fadeTo(200,0.0).delay(200).fadeTo(200,1, blink);
-   }
+    $('#blink-icon').delay(200).fadeTo(200,0.0).delay(200).fadeTo(200,1, blink);
+     }
 
 
   function returnWords (){
-    wordsOut = false;
-    $("#icon-spot").empty();
-    // guessedLet = [];
-    $("#text-display").stop();
-    $("#text-display").html(normalWords);
-    $("#total-caught").html(caughtCount);
- }
+      wordsOut = false;
+      $("#icon-spot").empty();
+      // guessedLet = [];
+      $("#text-display").stop();
+      $("#text-display").html(normalWords);
+      $("#total-caught").html(caughtCount);
+   }
  
 
 }); //end of document ready
@@ -307,7 +323,7 @@ p2 :{
     pokedex: "The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight."
   },
 
-      p4: {
+  p4: {
     name: 'Charmander',
     type: 'Fire',
     number: 4,
@@ -317,7 +333,7 @@ p2 :{
     
   },
 
-      p5: {
+  p5: {
     name: 'Charmeleon',
     type: 'Fire',
     number: 5,
@@ -328,7 +344,7 @@ p2 :{
   },
 
 
-      p6: {
+  p6: {
     name: 'Charizard',
     type: 'Fire',
     number: 6,
@@ -337,7 +353,7 @@ p2 :{
     pokedex:"Spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally."
   },
 
-      p7: {
+  p7: {
     name: 'Squirtle',
     type: 'Water',
     number: 7,
@@ -346,7 +362,7 @@ p2 :{
     pokedex:"After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth."
   },
 
-      p8: {
+  p8: {
     name: 'Wartortle',
     type: 'Water',
     number: 8,
@@ -355,7 +371,7 @@ p2 :{
     pokedex:"Often hides in water to stalk unwary prey. For swimming fast, it moves its ears to maintain balance."
   },
 
-      p9: {
+  p9: {
     name: 'Blastoise',
     type: 'Water',
     number: 4,
@@ -364,7 +380,7 @@ p2 :{
     pokedex:"A brutal POKéMON with pressurized water jets on its shell. They are used for high speed tackles."
   },
 
-      p10: {
+  p10: {
     name: 'Caterpie',
     type: 'Bug',
     number: 10,
@@ -373,7 +389,7 @@ p2 :{
     pokedex:"Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls."
   },
 
-      p11: {
+  p11: {
     name: 'Metapod',
     type: 'Bug',
     number: 11,
@@ -382,7 +398,7 @@ p2 :{
     pokedex:"This POKéMON is vulnerable to attack while its shell is soft, exposing its weak and tender body."
   },
 
-      p12: {
+  p12: {
     name: 'Butterfree',
     type: 'Bug/Flying',
     number: 12,
@@ -391,7 +407,7 @@ p2 :{
     pokedex: "In battle, it flaps its wings at high speed to release highly toxic dust into the air."
   },
 
-      p13: {
+  p13: {
     name: 'Weedle',
     type: 'Bug/Poison',
     number: 13,
@@ -400,7 +416,7 @@ p2 :{
     pokedex: "Often found in forests, eating leaves. It has a sharp venomous stinger on its head."
   },
 
-      p14: {
+  p14: {
     name: 'Kakuna',
     type: 'Bug/Poison',
     number: 14,
@@ -409,7 +425,7 @@ p2 :{
     pokedex:"Almost incapable of moving, this POKéMON can only harden its shell to protect itself from predators."
   },
 
-      p15: {
+  p15: {
     name: 'Beedrill',
     type: 'Bug/Poison',
     number: 15,
@@ -419,7 +435,7 @@ p2 :{
   },
 
 
-      p16: {
+  p16: {
     name: 'Pidgey',
     type: 'Normal/Flying',
     number: 16,
@@ -429,7 +445,7 @@ p2 :{
   },
 
 
-      p17: {
+  p17: {
     name: 'Pidgeotto',
     type: 'Normal/Flying',
     number: 17,
@@ -438,7 +454,7 @@ p2 :{
     pokedex:"Very protective of its sprawling territorial area, this POKéMON will fiercely peck at any intruder."
   },
 
-      p18: {
+  p18: {
     name: 'Pidgeot',
     type: 'Normal/Flying',
     number: 18,
@@ -447,7 +463,7 @@ p2 :{
     pokedex:"When hunting, it skims the surface of water at high speed to pick off unwary prey such as MAGIKARP."
   },
 
-      p19: {
+  p19: {
     name: 'Rattata',
     type: 'Normal',
     number: 19,
@@ -456,7 +472,7 @@ p2 :{
     pokedex:"Bites anything when it attacks. Small and very quick, it is a common sight in many places."
   },
 
-      p20: {
+  p20: {
     name: 'Raticate',
     type: 'Normal',
     number: 20,
@@ -465,7 +481,7 @@ p2 :{
     pokedex:"It uses its whiskers to maintain its balance. It apparently slows down if they are cut off."
   },
 
-    p21: {
+  p21: {
     name: 'Spearow',
     type: 'Normal/Flying',
     number: 21,

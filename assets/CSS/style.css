@@ -5,8 +5,15 @@
     src: url(PokemonGB.ttf);
 }
 
+@font-face {
+    font-family: unknownFont;
+    src: url(unknownGB.ttf);
+}
 body {
-	background-color: red;
+  background-color: red;
+}
+#word-box, #image-box {
+	
 	font-family: pokemonFont ;
 }
 
@@ -52,10 +59,7 @@ body {
   bottom: 15px;
   width: 470px;
 }
-@font-face {
-    font-family: unknownFont;
-    src: url(unknownGB.ttf);
-}
+
 
 .unknown-sybmol{
   font-family: unknownFont;
