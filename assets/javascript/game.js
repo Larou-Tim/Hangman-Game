@@ -178,7 +178,7 @@ $(document).ready(function() {
       $('#word-spot').html("");
       $("#picture-spot").stop();
       $("#picture-spot").empty();
-      $("#picture-spot").append("<img src='assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
+      $("#picture-spot").append("<img src='../assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
       if (pokemon[curPokemon].caught) {
         
         if (caughtCount != ObjectLength(pokemon)) {
@@ -196,7 +196,7 @@ $(document).ready(function() {
         for (var i = 0; i < curWord.length; i++) {
           //creates an array to track letters guessed, and chooses random letter to show user 
           //(random letter because the unknown could be used to cheat)
-          
+
           curGuess.push("_");
           var randomLetter;
           randomLetter =Math.floor( Math.random() * (90 - 65) + 65 );
