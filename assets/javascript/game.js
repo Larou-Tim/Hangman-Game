@@ -178,7 +178,7 @@ $(document).ready(function() {
       $('#word-spot').html("");
       $("#picture-spot").stop();
       $("#picture-spot").empty();
-      $("#picture-spot").append("<img src='../assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
+      $("#picture-spot").append("<img src='assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
       if (pokemon[curPokemon].caught) {
         
         if (caughtCount != ObjectLength(pokemon)) {
@@ -1257,9 +1257,9 @@ p2 :{
   },
 //********
   p122: {
-    name: 'MrMine',
+    name: 'MrMime',
     caught: false,
-    picture: "mrmine.gif",
+    picture: "mrmime.gif",
     pokedex:"If interrupted while it is miming, it will slap around the offender with its broad hands."
   },
 
