@@ -72,7 +72,7 @@ $(document).ready(function() {
         pokemon[curPokemon].caught = true;
         pokeballThrow();
 
-        typeWords("You caught " + pokemon[curPokemon].name+"!","");
+        typeWords("You caught " + pokemon[curPokemon].name+"!","Pokedex says: " + pokemon[curPokemon].pokedex);
 
         setTimeout(function(){ newGame(); }, 1000);
       }    
@@ -143,8 +143,8 @@ function guessCircles() {
 function newGame() {
 
     var randomPokemon = Math.floor(Math.random()*50)+1;
-    // console.log(randomPokemon);
-    // var randomPokemon = 22;
+    console.log(randomPokemon);
+    // var randomPokemon = 1;
     curPokemon = 'p' + randomPokemon;
     curWord = [];
     curGuess = [];
@@ -177,7 +177,7 @@ function newGame() {
       $("#guesses-remaining").html(guessRemain);
       $("#guessed-letters").empty();
 
-      typeWords("Wild appeared!","")
+      typeWords("Wild pokemon appeared! Can you guess it's name? Press any key to continue.");
       guessCircles();
       hpBar();
     }
@@ -220,21 +220,25 @@ function newGame() {
     }
   }
 
-function typeWords(words, moreWords) {
-          normalWords = $('#text-display').html();
+function typeWords(words) {
+  // console.log(words);
+  // normalWords = $('#text-display').html();
   wordsOut = true;
-    $(function(){
-      $("#text-display").typed({
-        strings: [words,moreWords],
-        typeSpeed: 1
+
+
+      $(function(){
+        $("#text-display").typed({
+          strings: [words],
+          typeSpeed: 1
+        });
       });
-    });
-  setTimeout(function(){  
-    $("#icon-spot").append(
-      '<i class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" id="blink-icon"></i>'
-    );
-      blink();
-  }, 1000);
+    setTimeout(function(){  
+      $("#icon-spot").append(
+        '<i class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" id="blink-icon"></i>'
+      );
+        blink();
+    }, 1000);
+  
 }
 
 $(".body").on("click",function() {
@@ -250,29 +254,36 @@ $(".body").on("click",function() {
 
 
   function returnWords (){
-      wordsOut = false;
-      $("#icon-spot").empty();
-      guessedLet = [];
-  $("#text-display").html(normalWords);
+    wordsOut = false;
+    $("#icon-spot").empty();
+    guessedLet = [];
+    $("#text-display").html(normalWords);
  }
  
 
 }); //end of document ready
 
+var normalWords = '<div class="row"><span>Pokemon Caught: </span><span id="total-caught">' +
+                  '</span></div><div class="row"><span>Guesses Remaining: </span>' + 
+                  '<span id="guesses-remaining"></span></div>'
+                  '<div class="row"><span>Guessed Letters: </span><span' +
+                   'id="guessed-letters"></span></div>"'
 var pokemon = {
 p1 :{
   name: 'Bulbasaur',
   type: 'Grass/Poison',
   number: 1,
   caught: false,
-  picture: 'bulbasaur.gif'
+  picture: 'bulbasaur.gif',
+  pokedex: "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon."
 },
 p2 :{
     name: 'Ivysaur',
     type: 'Grass/Poison',
     number: 2,
     caught: false,
-    picture: 'ivysaur.gif'
+    picture: 'ivysaur.gif',
+    pokedex: "When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs."
   },
 
   p3: {
@@ -280,7 +291,8 @@ p2 :{
     type: 'Grass/Poison',
     number: 3,
     caught: false,
-    picture: "venusaur.gif" 
+    picture: "venusaur.gif" ,
+    pokedex: "The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight."
   },
 
       p4: {
@@ -288,7 +300,8 @@ p2 :{
     type: 'Fire',
     number: 4,
     caught: false,
-    picture: 'charmander.gif'
+    picture: 'charmander.gif',
+    pokedex: "Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail."
     
   },
 
@@ -297,7 +310,8 @@ p2 :{
     type: 'Fire',
     number: 5,
     caught: false,
-    picture: "charmeleon.gif"
+    picture: "charmeleon.gif",
+    pokedex: "When it swings its burning tail, it elevates the temperature to unbearably high levels."
     
   },
 
@@ -307,7 +321,8 @@ p2 :{
     type: 'Fire',
     number: 6,
     caught: false,
-    picture: 'charizard.gif'
+    picture: 'charizard.gif',
+    pokedex:"Spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally."
   },
 
       p7: {
@@ -315,7 +330,8 @@ p2 :{
     type: 'Water',
     number: 7,
     caught: false,
-    picture: 'squirtle.gif'
+    picture: 'squirtle.gif',
+    pokedex:"After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth."
   },
 
       p8: {
@@ -323,7 +339,8 @@ p2 :{
     type: 'Water',
     number: 8,
     caught: false,
-    picture: 'wartortle.gif'
+    picture: 'wartortle.gif',
+    pokedex:"Often hides in water to stalk unwary prey. For swimming fast, it moves its ears to maintain balance."
   },
 
       p9: {
@@ -331,7 +348,8 @@ p2 :{
     type: 'Water',
     number: 4,
     caught: false,
-    picture: 'blastoise.gif'
+    picture: 'blastoise.gif',
+    pokedex:"A brutal POKéMON with pressurized water jets on its shell. They are used for high speed tackles."
   },
 
       p10: {
@@ -339,7 +357,8 @@ p2 :{
     type: 'Bug',
     number: 10,
     caught: false,
-    picture: 'caterpie.gif'
+    picture: 'caterpie.gif',
+    pokedex:"Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls."
   },
 
       p11: {
@@ -347,7 +366,8 @@ p2 :{
     type: 'Bug',
     number: 11,
     caught: false,
-    picture: 'metapod.gif'
+    picture: 'metapod.gif',
+    pokedex:"This POKéMON is vulnerable to attack while its shell is soft, exposing its weak and tender body."
   },
 
       p12: {
@@ -355,7 +375,8 @@ p2 :{
     type: 'Bug/Flying',
     number: 12,
     caught: false,
-    picture: 'butterfree.gif'
+    picture: 'butterfree.gif',
+    pokedex: "In battle, it flaps its wings at high speed to release highly toxic dust into the air."
   },
 
       p13: {
@@ -363,7 +384,8 @@ p2 :{
     type: 'Bug/Poison',
     number: 13,
     caught: false,
-    picture: 'weedle.gif'
+    picture: 'weedle.gif',
+    pokedex: "Often found in forests, eating leaves. It has a sharp venomous stinger on its head."
   },
 
       p14: {
@@ -371,7 +393,8 @@ p2 :{
     type: 'Bug/Poison',
     number: 14,
     caught: false,
-    picture: 'kakuna.gif'
+    picture: 'kakuna.gif',
+    pokedex:"Almost incapable of moving, this POKéMON can only harden its shell to protect itself from predators."
   },
 
       p15: {
@@ -379,7 +402,8 @@ p2 :{
     type: 'Bug/Poison',
     number: 15,
     caught: false,
-    picture: 'beedrill.gif'
+    picture: 'beedrill.gif',
+    pokedex:"Flies at high speed and attacks using its large venomous stingers on its forelegs and tail."
   },
 
 
@@ -388,7 +412,8 @@ p2 :{
     type: 'Normal/Flying',
     number: 16,
     caught: false,
-    picture: 'pidgey.gif'
+    picture: 'pidgey.gif',
+    pokedex:"A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand."
   },
 
 
@@ -397,7 +422,8 @@ p2 :{
     type: 'Normal/Flying',
     number: 17,
     caught: false,
-    picture: 'pidgeotto.gif'
+    picture: 'pidgeotto.gif',
+    pokedex:"Very protective of its sprawling territorial area, this POKéMON will fiercely peck at any intruder."
   },
 
       p18: {
@@ -405,7 +431,8 @@ p2 :{
     type: 'Normal/Flying',
     number: 18,
     caught: false,
-    picture: 'pidgeot.gif'
+    picture: 'pidgeot.gif',
+    pokedex:"When hunting, it skims the surface of water at high speed to pick off unwary prey such as MAGIKARP."
   },
 
       p19: {
@@ -413,7 +440,8 @@ p2 :{
     type: 'Normal',
     number: 19,
     caught: false,
-    picture: 'rattata.gif'
+    picture: 'rattata.gif',
+    pokedex:"Bites anything when it attacks. Small and very quick, it is a common sight in many places."
   },
 
       p20: {
@@ -421,7 +449,8 @@ p2 :{
     type: 'Normal',
     number: 20,
     caught: false,
-    picture: 'raticate.gif'
+    picture: 'raticate.gif',
+    pokedex:"It uses its whiskers to maintain its balance. It apparently slows down if they are cut off."
   },
 
     p21: {
@@ -429,7 +458,8 @@ p2 :{
     type: 'Normal/Flying',
     number: 21,
     caught: false,
-    picture: "spearow.gif"
+    picture: "spearow.gif",
+    pokedex:"Eats bugs in grassy areas. It has to flap its short wings at high speed to stay airborne."
   },
 
   p22: {
@@ -437,7 +467,8 @@ p2 :{
     type: 'Normal/Flying',
     number: 22,
     caught: false,
-    picture: 'fearow.gif'
+    picture: 'fearow.gif',
+    pokedex:"With its huge and magnificent wings, it can keep aloft without ever having to land for rest."
   },
 
   p23: {
@@ -445,7 +476,8 @@ p2 :{
     type: 'Poison',
     number: 23,
     caught: false,
-    picture: "ekans.gif"
+    picture: "ekans.gif",
+    pokedex:"Moves silently and stealthily. Eats the eggs of birds, such as PIDGEY and SPEAROW, whole."
   },
 
   p24: {
@@ -453,7 +485,8 @@ p2 :{
     type: 'Poison',
     number: 24,
     caught: false,
-    picture: "arbok.gif"
+    picture: "arbok.gif",
+    pokedex:"It is rumored that the ferocious warning markings on its belly differ from area to area."
   },
 
   p25: {
@@ -461,7 +494,8 @@ p2 :{
     type: 'Electric',
     number: 25,
     caught: false,
-    picture: "pikachu.gif"
+    picture: "pikachu.gif",
+    pokedex:"When several of these POKéMON gather, their electricity could build and cause lightning storms."
   },
 
   p26: {
@@ -469,7 +503,8 @@ p2 :{
     type: 'Electric',
     number: 26,
     caught: false,
-    picture: "raichu.gif"
+    picture: "raichu.gif",
+    pokedex:"Its long tail serves as a ground to protect itself from its own high voltage power."
   },
 
   p27: {
@@ -477,7 +512,8 @@ p2 :{
     type: 'Ground',
     number: 27,
     caught: false,
-    picture: "sandshrew.gif"
+    picture: "sandshrew.gif",
+    pokedex:"Burrows deep underground in arid locations far from water. It only emerges to hunt for food."
   },
 
   p28: {
@@ -485,7 +521,8 @@ p2 :{
     type: 'Ground',
     number: 28,
     caught: false,
-    picture: "sandslash.gif"
+    picture: "sandslash.gif",
+    pokedex:"Curls up into a spiny ball when threatened. It can roll while curled up to attack or escape."
   },
 
   p29: {
@@ -493,7 +530,8 @@ p2 :{
     type: 'Poison',
     number: 29,
     caught: false,
-    picture: "nidoranf.gif"
+    picture: "nidoranf.gif",
+    pokedex:"Although small, its venomous barbs render this POKéMON dangerous. The female has smaller horns."
   },
 
   p30: {
@@ -501,7 +539,8 @@ p2 :{
     type: 'Poison',
     number: 30,
     caught: false,
-    picture: "nidorina.gif"
+    picture: "nidorina.gif",
+    pokedex:"The female's horn develops slowly. Prefers physical attacks such as clawing and biting."
   },
 
   p31: {
@@ -509,7 +548,8 @@ p2 :{
     type: 'Poison/Ground',
     number: 31,
     caught: false,
-    picture: "nidoqueen.gif"
+    picture: "nidoqueen.gif",
+    pokedex:"Its hard scales provide strong protection. It uses its hefty bulk to execute powerful moves."
   },
 
   p32: {
@@ -517,7 +557,8 @@ p2 :{
     type: 'Poison',
     number: 32,
     caught: false,
-    picture: "nidoranm.gif"
+    picture: "nidoranm.gif",
+    pokedex:"Stiffens its ears to sense danger. The larger its horns, the more powerful its secreted venom."
   },
 
   p33: {
@@ -525,7 +566,8 @@ p2 :{
     type: 'Poison',
     number: 33,
     caught: false,
-    picture: 'nidorino.gif'
+    picture: 'nidorino.gif',
+    pokedex:"An aggressive POKéMON that is quick to attack. The horn on its head secretes a powerful venom."
 
   },
 
@@ -534,7 +576,8 @@ p2 :{
     type: 'Poison/Ground',
     number: 34,
     caught: false,
-    picture: "nidoking.gif"
+    picture: "nidoking.gif",
+    pokedex:"It uses its powerful tail in battle to smash, constrict, then break the prey's bones."
   },
 
   p35: {
@@ -542,7 +585,8 @@ p2 :{
     type: 'Normal (Now Fairy)',
     number: 35,
     caught: false,
-    picture: "clefairy.gif"
+    picture: "clefairy.gif",
+    pokedex:"Its magical and cute appeal has many admirers. It is rare and found only in certain areas."
   },
 
   p36: {
@@ -550,7 +594,8 @@ p2 :{
     type: 'Normal (Now Fairy)',
     number: 36,
     caught: false,
-    picture: "clefable.gif"
+    picture: "clefable.gif",
+    pokedex:"A timid fairy POKéMON that is rarely seen. It will run and hide the moment it senses people."
   },
 
   p37: {
@@ -558,7 +603,8 @@ p2 :{
     type: 'Fire',
     number: 37,
     caught: false,
-    picture: "vulpix.gif"
+    picture: "vulpix.gif",
+    pokedex:"At the time of birth, it has just one tail. The tail splits from its tip as it grows older."
   },
 
   p38: {
@@ -566,7 +612,8 @@ p2 :{
     type: 'Fire',
     number: 39,
     caught: false,
-    picture: "ninetales.gif"
+    picture: "ninetales.gif",
+    pokedex:"Very smart and very vengeful. Grabbing one of its many tails could result in a 1000-year curse."
   },
 
   p39: {
@@ -574,7 +621,8 @@ p2 :{
     type: 'Normal',
     number: 39,
     caught: false,
-    picture: "jigglypuff.gif"
+    picture: "jigglypuff.gif",
+    pokedex:"When its huge eyes light up, it sings a mysteriously soothing melody that lulls its enemies to sleep."
   },
 
   p40: {
@@ -582,7 +630,8 @@ p2 :{
     type: 'Normal',
     number: 40,
     caught: false,
-    picture: "wigglytuff.gif"
+    picture: "wigglytuff.gif",
+    pokedex:"The body is soft and rubbery. When angered, it will suck in air and inflate itself to an enormous size."
   },
 
   p41: {
@@ -590,7 +639,8 @@ p2 :{
     type: 'Poison/Flying',
     number: 41,
     caught: false,
-    picture: "zubat.gif"
+    picture: "zubat.gif",
+    pokedex:"Forms colonies in perpetually dark places. Uses ultrasonic waves to identify and approach targets."
   },
 
   p42: {
@@ -598,7 +648,8 @@ p2 :{
     type: 'Poison/Flying',
     number: 42,
     caught: false,
-    picture: "golbat.gif"
+    picture: "golbat.gif",
+    pokedex:"Once it strikes, it will not stop draining energy from the victim even if it gets too heavy to fly."
   },
 
   p43: {
@@ -606,7 +657,8 @@ p2 :{
     type: 'Grass/Poison',
     number: 43,
     caught: false,
-    picture: "oddish.gif"
+    picture: "oddish.gif",
+    pokedex:"During the day, it keeps its face buried in the ground. At night, it wanders around sowing its seeds."
   },
 
   p44: {
@@ -614,7 +666,8 @@ p2 :{
     type: 'Grass/Poison',
     number: 44,
     caught: false,
-    picture: "gloom.gif"
+    picture: "gloom.gif",
+    pokedex:"The fluid that oozes from its mouth isn't drool. It is a nectar that is used to attract prey."
   },
 
   p45: {
@@ -622,7 +675,8 @@ p2 :{
     type: 'Grass/Poison',
     number: 45,
     caught: false,
-    picture: "vileplume.gif"
+    picture: "vileplume.gif",
+    pokedex:"The larger its petals, the more toxic pollen it contains. Its big head is heavy and hard to hold up."
   },
 
   p46: {
@@ -630,7 +684,8 @@ p2 :{
     type: 'Bug/Grass',
     number: 46,
     caught: false,
-    picture: "paras.gif"
+    picture: "paras.gif",
+    pokedex:"Burrows to suck tree roots. The mushrooms on its back grow by drawing nutrients from the bug host."
   },
 
   p47: {
@@ -638,7 +693,8 @@ p2 :{
     type: 'Bug/Grass',
     number: 47,
     caught: false,
-    picture: "parasect.gif"
+    picture: "parasect.gif",
+    pokedex:"A host-parasite pair in which the parasite mushroom has taken over the host bug. Prefers damp places."
   },
 
   p48: {
@@ -646,7 +702,8 @@ p2 :{
     type: 'Bug/Poison',
     number: 48,
     caught: false,
-    picture: "venonat.gif"
+    picture: "venonat.gif",
+    pokedex:"Lives in the shadows of tall trees where it eats insects. It is attracted by light at night."
   },
 
   p49: {
@@ -654,7 +711,8 @@ p2 :{
     type: 'Bug/Poison',
     number: 49,
     caught: false,
-    picture: "venomoth.gif"
+    picture: "venomoth.gif",
+    pokedex:"The dust-like scales covering its wings are color coded to indicate the kinds of poison it has."
   },
 
   p50: {
@@ -662,15 +720,366 @@ p2 :{
     type: 'Ground',
     number: 50,
     caught: false,
-    picture: "diglett.gif"
+    picture: "diglett.gif",
+    pokedex:"Lives about one yard underground where it feeds on plant roots. It sometimes appears above ground."
   },
 
-  // p51: {
-  //   name: 'Spearow',
-  //   type: 'Normal/Flying',
-  //   number: 21,
-  //   caught: false,
-  //   picture: ".gif"
-  // },
+  p51: {
+    name: 'Dugtrio',
+    caught: false,
+    picture: "dugtrio.gif",
+    pokedex:"A team of DIGLETT triplets. It triggers huge earthquakes by burrowing 60 miles underground."
+  },
+
+    p52: {
+    name: 'Meowth',
+    caught: false,
+    picture: "meowth.gif",
+    pokedex:"Adores circular objects. Wanders the streets on a nightly basis to look for dropped loose change."
+  },
+
+
+    p53: {
+    name: 'Persian',
+    caught: false,
+    picture: "persian.gif",
+    pokedex:"Although its fur has many admirers, it is tough to raise as a pet because of its fickle meanness."
+  },
+
+
+    p54: {
+    name: 'Psyduck',
+    caught: false,
+    picture: "psyduck.gif",
+    pokedex:"While lulling its enemies with its vacant look, this wily POKéMON will use psychokinetic powers."
+  },
+
+
+    p55: {
+    name: 'Golduck',
+    caught: false,
+    picture: "golduck.gif",
+    pokedex:"Often seen swimming elegantly by lake shores. It is often mistaken for the Japanese monster, Kappa."
+  },
+
+
+    p56: {
+    name: 'Mankey',
+    caught: false,
+    picture: "mankey.gif",
+    pokedex:"Extremely quick to anger. It could be docile one moment then thrashing away the next instant."
+  },
+
+    p57: {
+    name: 'Primeape',
+    caught: false,
+    picture: "primeape.gif",
+    pokedex:"Always furious and tenacious to boot. It will not abandon chasing its quarry until it is caught."
+  },
+
+    p58: {
+    name: 'Growlithe',
+    caught: false,
+    picture: "growlithe.gif",
+    pokedex:"Very protective of its territory. It will bark and bite to repel intruders from its space."
+  },
+
+    p59: {
+    name: 'Arcanine',
+    caught: false,
+    picture: "arcanine.gif",
+    pokedex:"A POKéMON that has been admired since the past for its beauty. It runs agilely as if on wings."
+  },
+
+    p60: {
+    name: 'Poliwag',
+    caught: false,
+    picture: "poliwag.gif",
+    pokedex:"Its newly grown legs prevent it from running. It appears to prefer swimming than trying to stand."
+  },
+
+    p61: {
+    name: 'Poliwhirl',
+    caught: false,
+    picture: "poliwhirl.gif",
+    pokedex:"Capable of living in or out of water. When out of water, it sweats to keep its body slimy."
+  },
+
+    p62: {
+    name: 'Poliwrath',
+    caught: false,
+    picture: "poliwrath.gif",
+    pokedex:"An adept swimmer at both the front crawl and breast stroke. Easily overtakes the best human swimmers."
+  },
+
+    p63: {
+    name: 'Abra',
+    caught: false,
+    picture: "abra.gif",
+    pokedex:"Using its ability to read minds, it will identify impending danger and TELEPORT to safety."
+  },
+
+    p64: {
+    name: 'Kadabra',
+    caught: false,
+    picture: "kadabra.gif",
+    pokedex:"It emits special alpha waves from its body that induce headaches just by being close by."
+  },
+    p65: {
+    name: 'Alakazam',
+    caught: false,
+    picture: "alakazam.gif",
+    pokedex:"Its brain can outperform a supercomputer. Its intelligence quotient is said to be 5,000."
+  },
+
+    p66: {
+    name: 'Machop',
+    caught: false,
+    picture: "machop.gif",
+    pokedex:"Loves to build its muscles. It trains in all styles of martial arts to become even stronger."
+  },
+
+    p67: {
+    name: 'Machoke',
+    caught: false,
+    picture: "machoke.gif",
+    pokedex:"Its muscular body is so powerful, it must wear a power save belt to be able to regulate its motions."
+  },
+
+    p68: {
+    name: 'Machamp',
+    caught: false,
+    picture: "machamp.gif",
+    pokedex:"Using its heavy muscles, it throws powerful punches that can send the victim clear over the horizon."
+  },
+
+    p69: {
+    name: 'Bellsprout',
+    caught: false,
+    picture: "bellsprout.gif",
+    pokedex:"A carnivorous POKéMON that traps and eats bugs. It uses its root feet to soak up needed moisture."
+  },
+
+    p70: {
+    name: 'Weepinbell',
+    caught: false,
+    picture: "weepinbell.gif",
+    pokedex:"It spits out POISONPOWDER to immobilize the enemy and then finishes it with a spray of ACID."
+  },
+  p71: {
+    name: 'Victreebel',
+    caught: false,
+    picture: "victreebel.gif",
+    pokedex:"Said to live in huge colonies deep in jungles, although no one has ever returned from there."
+  },
+
+  p72: {
+    name: 'Tentacool',
+    caught: false,
+    picture: "tentacool.gif",
+    pokedex:"Drifts in shallow seas. Anglers who hook them by accident are often punished by its stinging acid."
+  },
+
+  p73: {
+    name: 'Tentacruel',
+    caught: false,
+    picture: "tentacruel.gif",
+    pokedex:"The tentacles are normally kept short. On hunts, they are extended to ensnare and immobilize prey."
+  },
+
+  p74: {
+    name: 'Geodude',
+    caught: false,
+    picture: "geodude.gif",
+    pokedex:"Found in fields and mountains. Mistaking them for boulders, people often step or trip on them."
+  },
+
+  p75: {
+    name: 'Graveler',
+    caught: false,
+    picture: "graveler.gif",
+    pokedex:"Rolls down slopes to move. It rolls over any obstacle without slowing or changing its direction."
+  },
+
+  p76: {
+    name: 'Golem',
+    caught: false,
+    picture: "golem.gif",
+    pokedex:"Its boulder-like body is extremely hard. It can easily withstand dynamite blasts without damage."
+  },
+
+  p77: {
+    name: 'Ponyta',
+    caught: false,
+    picture: "ponyta.gif",
+    pokedex:"Its hooves are 10 times harder than diamonds. It can trample anything completely flat in little time."
+  },
+
+  p78: {
+    name: 'Rapidash',
+    caught: false,
+    picture: "rapidash.gif",
+    pokedex:"Very competitive, this POKéMON will chase anything that moves fast in the hopes of racing it."
+  },
+
+  p79: {
+    name: 'Slowpoke',
+    caught: false,
+    picture: "slowpoke.gif",
+    pokedex:"Incredibly slow and dopey. It takes 5 seconds for it to feel pain when under attack."
+  },
+
+  p80: {
+    name: 'Slowbro',
+    caught: false,
+    picture: "slowbro.gif",
+    pokedex:"The SHELLDER that is latched onto SLOWPOKE's tail is said to feed on the host's left over scraps."
+  },
+
+  p81: {
+    name: 'Magnemite',
+    caught: false,
+    picture: "magnemite.gif",
+    pokedex:"Uses anti-gravity to stay suspended. Appears without warning and uses THUNDER WAVE and similar moves."
+  },
+
+  p82: {
+    name: 'Magneton',
+    caught: false,
+    picture: "magneton.gif",
+    pokedex:"Formed by several MAGNEMITEs linked together. They frequently appear when sunspots flare up."
+  },
+
+  p83: {
+    name: 'Farfetchd',
+    caught: false,
+    picture: "farfetchd.gif",
+    pokedex:"The sprig of green onions it holds is its weapon. It is used much like a metal sword."
+  },
+
+  p84: {
+    name: 'Doduo',
+    caught: false,
+    picture: "doduo.gif",
+    pokedex:"A bird that makes up for its poor flying with its fast foot speed. Leaves giant footprints."
+  },
+
+
+  p85: {
+    name: 'Dodrio',
+    caught: false,
+    picture: "dodrio.gif",
+    pokedex:"Uses its three brains to execute complex plans. While two heads sleep, one head stays awake."
+  },
+
+  p86: {
+    name: 'Seel',
+    caught: false,
+    picture: "seel.gif",
+    pokedex:"The protruding horn on its head is very hard. It is used for bashing through thick ice."
+  },
+
+
+  p87: {
+    name: 'Dewgong',
+    caught: false,
+    picture: "dewgong.gif",
+    pokedex:"Stores thermal energy in its body. Swims at a steady 8 knots even in intensely cold waters."
+  },
+
+
+  p88: {
+    name: 'Grimer',
+    caught: false,
+    picture: "grimer.gif",
+    pokedex:"Appears in filthy areas. Thrives by sucking up polluted sludge that is pumped out of factories."
+  },
+
+
+  p89: {
+    name: 'Muk',
+    caught: false,
+    picture: "muk.gif",
+    pokedex:"Thickly covered with a filthy, vile sludge. It is so toxic, even its footprints contain poison."
+  },
+
+
+  p90: {
+    name: 'Shellder',
+    caught: false,
+    picture: "shellder.gif",
+    pokedex:"Its hard shell repels any kind of attack. It is vulnerable only when its shell is open."
+  },
+
+  p91: {
+    name: 'Cloyster',
+    caught: false,
+    picture: "cloyster.gif",
+    pokedex:"When attacked, it launches its horns in quick volleys. Its innards have never been seen."
+  },
+
+    p92: {
+    name: 'Gastly',
+    caught: false,
+    picture: "gastly.gif",
+    pokedex:"Almost invisible, this gaseous POKéMON cloaks the target and puts it to sleep without notice."
+  },
+
+    p93: {
+    name: 'Haunter',
+    caught: false,
+    picture: "haunter.gif",
+    pokedex:"Because of its ability to slip through block walls, it is said to be from another dimension."
+  },
+
+    p94: {
+    name: 'Gengar',
+    caught: false,
+    picture: "gengar.gif",
+    pokedex:"Under a full moon, this POKéMON likes to mimic the shadows of people and laugh at their fright."
+  },
+
+    p95: {
+    name: 'Onix',
+    caught: false,
+    picture: "onix.gif",
+    pokedex:"As it grows, the stone portions of its body harden to become similar to a diamond, but colored black."
+  },
+
+    p96: {
+    name: 'Drowzee',
+    caught: false,
+    picture: "drowzee.gif",
+    pokedex:"Puts enemies to sleep then eats their dreams. Occasionally gets sick from eating bad dreams."
+  },
+
+    p97: {
+    name: 'Hypno',
+    caught: false,
+    picture: "hypno.gif",
+    pokedex:"When it locks eyes with an enemy, it will use a mix of PSI moves such as HYPNOSIS and CONFUSION."
+  },
+
+    p98: {
+    name: 'Krabby',
+    caught: false,
+    picture: "krabby.gif",
+    pokedex:"Its pincers are not only powerful weapons, they are used for balance when walking sideways."
+  },
+
+    p99: {
+    name: 'Kingler',
+    caught: false,
+    picture: "kingler.gif",
+    pokedex:"The large pincer has 10000 hp of crushing power. However, its huge size makes it unwieldy to use."
+  },
+
+    p100: {
+    name: 'Voltorb',
+    caught: false,
+    picture: "voltorb.gif",
+    pokedex:"Usually found in power plants. Easily mistaken for a POKé BALL, they have zapped many people."
+  },
+
 
   }
