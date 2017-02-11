@@ -71,8 +71,8 @@ $(document).ready(function() {
         $("#total-caught").html(caughtCount);
         pokemon[curPokemon].caught = true;
         pokeballThrow();
-        normalWords = $('#text-display').html();
-        typeWords("You caught " + pokemon[curPokemon].name+"!");
+
+        typeWords("You caught " + pokemon[curPokemon].name+"!","");
 
         setTimeout(function(){ newGame(); }, 1000);
       }    
@@ -176,6 +176,8 @@ function newGame() {
       $('#word-spot').html(curGuess);
       $("#guesses-remaining").html(guessRemain);
       $("#guessed-letters").empty();
+
+      typeWords("Wild appeared!","")
       guessCircles();
       hpBar();
     }
@@ -218,11 +220,12 @@ function newGame() {
     }
   }
 
-function typeWords(words) {
+function typeWords(words, moreWords) {
+          normalWords = $('#text-display').html();
   wordsOut = true;
     $(function(){
       $("#text-display").typed({
-        strings: [words],
+        strings: [words,moreWords],
         typeSpeed: 1
       });
     });
