@@ -11,6 +11,7 @@ $(document).ready(function() {
   var canRun = true;
   var needGame = false;
   var wordsOut = false;
+  var doNothing = false;
   var normalWords = '<div class="row"><span>Pokemon Caught: </span><span id="total-caught">' + caughtCount +
                   '</span></div><div class="row"><span>Guesses Remaining: ' +  guessRemain +'</span>' + 
                   '<span id="guesses-remaining"></span></div>' +
@@ -24,7 +25,7 @@ $(document).ready(function() {
 //main - handles if there are button clicks
   document.onkeyup = function(event) {
     console.log(caughtCount);
-    if (canRun && !wordsOut && !needGame) {
+    if (canRun && !wordsOut && !needGame && !doNothing) {
       var letter = String.fromCharCode(event.keyCode).toLowerCase();
       var guess = curWord.indexOf(letter);
       var guessCap = curWord.indexOf(letter.toUpperCase());
@@ -61,13 +62,13 @@ $(document).ready(function() {
         } //end else
       } //end alphebet handler if
     } //end canRun if
-    else if (canRun && wordsOut && !needGame) {
+    else if (canRun && wordsOut && !needGame && !doNothing) {
       returnWords(normalWords);
     }
 
-    else if (!canRun && wordsOut && needGame) {
+    else if (!canRun && wordsOut && needGame && !doNothing) {
         returnWords(normalWords);
-        setTimeout(function(){ newGame(); }, 1000);
+        newGame();
         needGame = false;
 
     }
@@ -83,7 +84,9 @@ $(document).ready(function() {
         caughtCount++;
         pokemon[curPokemon].caught = true;
         pokeballThrow();
+        doNothing = true;
         typeWords("You caught " + pokemon[curPokemon].name+"! <br />Pokedex says: " + pokemon[curPokemon].pokedex);
+        setTimeout(function(){ doNothing = false;}, 4000);
         needGame = true;
         // setTimeout(function(){ newGame(); }, 3000);
       }    
@@ -153,7 +156,7 @@ function guessCircles() {
 //creates new game and updates screen
 function newGame() {
 
-    var randomPokemon = 83 //Math.floor(Math.random()*150)+1;
+    var randomPokemon = Math.floor(Math.random()*150)+1;
     // console.log(randomPokemon);
     // var randomPokemon = 1;
     curPokemon = 'p' + randomPokemon;
@@ -187,8 +190,8 @@ function newGame() {
       $("#guessed-letters").empty();
 
       typeWords("Wild pokemon appeared! Can you guess it's name? <br /> Press any key to continue.");
-      canRun = true;
-      console.log(canRun + ' ' + needGame + " " + wordsOut);
+      setTimeout(function(){ canRun = true;}, 4000);
+      // console.log(canRun + ' ' + needGame + " " + wordsOut);
       guessCircles();
       hpBar();
     }
@@ -268,6 +271,7 @@ function typeWords(words) {
     wordsOut = false;
     $("#icon-spot").empty();
     // guessedLet = [];
+    $("#text-display").stop();
     $("#text-display").html(normalWords);
     $("#total-caught").html(caughtCount);
  }
