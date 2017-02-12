@@ -7,9 +7,9 @@ $(document).ready(function() {
   var guessRemain = 6;
   var caughtCount = 0;
   var curPokemon;
-  // console.log( ObjectLength(pokemon) );
   var canRun = true;
   var needGame = false;
+  var lastGame = false;
   var wordsOut = false;
   var doNothing = false;
   var normalWords = '<div class="row"><span>Pokemon Caught: </span><span id="total-caught">' + caughtCount +
@@ -17,21 +17,21 @@ $(document).ready(function() {
                   '<span id="guesses-remaining"></span></div>' +
                   '<div class="row"><span>Guessed Letters: </span><span ' +
                    'id="guessed-letters"></span></div>'
-// console.log()
 
 
+var 'audioToggle' = document.getElementById("audio-toggle");
+var isPlaying = false;
 
   newGame();
 
 
 //main - handles if there are button clicks
   document.onkeyup = function(event) {
-    console.log(caughtCount);
+
     if (canRun && !wordsOut && !needGame && !doNothing) {
       var letter = String.fromCharCode(event.keyCode).toLowerCase();
       var guess = curWord.indexOf(letter);
       var guessCap = curWord.indexOf(letter.toUpperCase());
-      // console.log(curPokemon);
     
         //only allow alphbet - removed for mr mine/farfetchd
       if (event.keyCode > 64 && event.keyCode < 91) {
@@ -74,20 +74,25 @@ $(document).ready(function() {
       returnWords(normalWords);
     }
 
-    else if (!canRun && wordsOut && needGame && !doNothing) {
+    else if (!canRun && wordsOut && needGame && !doNothing && !lastGame) {
         returnWords(normalWords);
         newGame();
         needGame = false;
 
     }
+
+    else if (!canRun && wordsOut && needGame && !doNothing && lastGame) {
+
+      typeWords("You even caught Mew! You truely are a Pokemon master!<br /> You have beat the game, congrats!");
+
+    }
+
   }; //end on click function
 
   // checks to see if all letters have been guessed
   function checkWin() {
       var emptyLetter = curGuess.indexOf("_");
-      // console.log(guessRemain)
       if (emptyLetter == -1) {
-        // alert('Winner Winner Chicken Dinner');
         canRun = false;
         caughtCount++;
         pokemon[curPokemon].caught = true;
@@ -96,8 +101,8 @@ $(document).ready(function() {
         typeWords("You caught " + pokemon[curPokemon].name+"! <br />Pokedex says: " + pokemon[curPokemon].pokedex);
         setTimeout(function(){ doNothing = false;}, 4000);
         needGame = true;
-        // setTimeout(function(){ newGame(); }, 3000);
-      }    
+      } 
+
     }
 
   function pokeballThrow () {
@@ -107,7 +112,6 @@ $(document).ready(function() {
       width: '0px',
       height: '0px',
         });
-
     });
     setTimeout(function(){ $("#poke-gif").remove(); }, 1000)
     setTimeout(function(){ $("#pokeball").remove(); }, 1000)
@@ -115,7 +119,7 @@ $(document).ready(function() {
 
   function  checkLose() {
     if (guessRemain == 0) {
-        // console.log('The pokemon Escaped');
+       
         $("#poke-gif").animate({
           width: '0px',
           height: '0px',
@@ -126,7 +130,6 @@ $(document).ready(function() {
       typeWords("The pokemon escaped! <br /> You will have to find that one again."); 
       setTimeout(function(){ doNothing = false;}, 4000);
       needGame = true;
-      // setTimeout(function(){ newGame(); }, 4000);
         
       }
   }
@@ -165,11 +168,16 @@ $(document).ready(function() {
   }
 
 //creates new game and updates screen
-  function newGame() {
+  function newGame(endGame) {
+    lastGame = endGame || false;
 
+    if (lastGame) {
+      randomPokemon = 151;
+    } 
+    else {
       var randomPokemon = Math.floor(Math.random()*150)+1;
-      // console.log(randomPokemon);
-      // var randomPokemon = 1;
+    }
+
       curPokemon = 'p' + randomPokemon;
       curWord = [];
       guessedLet = [];
@@ -181,14 +189,14 @@ $(document).ready(function() {
       $("#picture-spot").append("<img src='assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
       if (pokemon[curPokemon].caught) {
         
-        if (caughtCount != ObjectLength(pokemon)) {
+        if (caughtCount != 150) {
           newGame();
         }
-        else {alert("Caught them All!");} // add mew and special win handler
+        else { 
+        newGame(true);
+        } // add mew and special win handler
       }
       else {
-        //****************** switchc to spans, add class to display unknown symbols
-        //class='unknown-sybmol'
         
         curGuess =[];
         curWord = pokemon[curPokemon].name.split("");
@@ -200,17 +208,14 @@ $(document).ready(function() {
           curGuess.push("_");
           var randomLetter;
           randomLetter =Math.floor( Math.random() * (90 - 65) + 65 );
-          // $('#word-spot').append("<span class='unknown-sybmol' id='letter-" + i + "'>" + curWord[i].toLowerCase() + "</span>")
           $('#word-spot').append("<span class='unknown-sybmol' id='letter-" + i + "'>" + String.fromCharCode(randomLetter).toLowerCase() + "</span>")
         
         }
-        // $('#word-spot').html(curGuess);
+     
         $("#guesses-remaining").html(guessRemain);
         $("#guessed-letters").empty();
-        // $('#word-spot').empty();
         typeWords("Wild pokemon appeared! Can you guess it's name? <br /> Press any key to continue.");
         setTimeout(function(){ canRun = true;}, 3500);
-        // console.log(canRun + ' ' + needGame + " " + wordsOut);
         guessCircles();
         hpBar();
       }
@@ -258,8 +263,7 @@ $(document).ready(function() {
 
 // creates the diaolgue box and typewriter 
   function typeWords(words) {
-    // console.log(words);
-    // normalWords = $('#text-display').html();
+
     canRun = false;
     wordsOut = true;
 
@@ -286,12 +290,12 @@ $(document).ready(function() {
   function returnWords (){
       wordsOut = false;
       $("#icon-spot").empty();
-      // guessedLet = [];
       $("#text-display").stop();
       $("#text-display").html(normalWords);
       $("#total-caught").html(caughtCount);
    }
  
+
 
 }); //end of document ready
 
