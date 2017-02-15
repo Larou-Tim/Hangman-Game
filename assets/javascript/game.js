@@ -107,7 +107,7 @@ $(document).ready(function() {
     }
 
   function pokeballThrow () {
-    $("#image-box").append("<img src='./assets/Images/pokeball.png' id='pokeball' alt='pokeball'>")
+    $("#image-box").append("<img src='assets/Images/pokeball.png' id='pokeball' alt='pokeball'>")
     $("#pokeball").animate({ top: "-=240px", left: "+=345px" }, "normal", function() {
       $("#poke-gif").animate({
       width: '0px',
@@ -187,7 +187,7 @@ $(document).ready(function() {
       $('#word-spot').html("");
       $("#picture-spot").stop();
       $("#picture-spot").empty();
-      $("#picture-spot").append("<img src='./assets/Images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
+      $("#picture-spot").append("<img src='assets/Images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
       if (pokemon[curPokemon].caught) {
         
         if (caughtCount != 150) {
