@@ -19,8 +19,8 @@ $(document).ready(function() {
                    'id="guessed-letters"></span></div>'
 
 
-var 'audioToggle' = document.getElementById("audio-toggle");
-var isPlaying = false;
+// var 'audioToggle' = document.getElementById("audio-toggle");
+// var isPlaying = false;
 
   newGame();
 
@@ -63,6 +63,7 @@ var isPlaying = false;
           if (guessedLet.indexOf(letter) == -1) {
           guessRemain--;
           guessedLet.push(letter);
+          $("#guesses-remaining").html(guessRemain);
           guessCircles();
           $("#guessed-letters").append("<span>" + letter + " </span>");
           checkLose();  
