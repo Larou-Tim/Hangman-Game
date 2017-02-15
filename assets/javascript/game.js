@@ -63,7 +63,7 @@ $(document).ready(function() {
           if (guessedLet.indexOf(letter) == -1) {
           guessRemain--;
           guessedLet.push(letter);
-          $("#guesses-remaining").html(guessRemain);
+          // $("#guesses-remaining").;
           guessCircles();
           $("#guessed-letters").append("<span>" + letter + " </span>");
           checkLose();  
@@ -84,7 +84,7 @@ $(document).ready(function() {
 
     else if (!canRun && wordsOut && needGame && !doNothing && lastGame) {
 
-      typeWords("You even caught Mew! You truely are a Pokemon master!<br /> You have beat the game, congrats!");
+      // typeWords("You even caught Mew! You truely are a Pokemon master!<br /> You have beat the game, congrats!");
 
     }
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
     }
 
   function pokeballThrow () {
-    $("#image-box").append("<img src='assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
+    $("#image-box").append("<img src='./assets/images/pokeball.png' id='pokeball' alt='pokeball'>")
     $("#pokeball").animate({ top: "-=240px", left: "+=345px" }, "normal", function() {
       $("#poke-gif").animate({
       width: '0px',
@@ -187,7 +187,7 @@ $(document).ready(function() {
       $('#word-spot').html("");
       $("#picture-spot").stop();
       $("#picture-spot").empty();
-      $("#picture-spot").append("<img src='assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
+      $("#picture-spot").append("<img src='./assets/images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
       if (pokemon[curPokemon].caught) {
         
         if (caughtCount != 150) {
