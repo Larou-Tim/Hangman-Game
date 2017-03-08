@@ -21,9 +21,21 @@ $(document).ready(function() {
 
 // var 'audioToggle' = document.getElementById("audio-toggle");
 // var isPlaying = false;
+var img;
 
   newGame();
 
+  $("body").on("click","#touchy", function() {
+    console.log("Touchy");
+
+      var vibrant = new Vibrant(img);
+      var swatches = vibrant.swatches();
+      for (var swatch in swatches){
+          if (swatches.hasOwnProperty(swatch) && swatches[swatch]) {
+              console.log(swatch, swatches[swatch].getHex());
+          }
+      }
+  }); 
 
 //main - handles if there are button clicks
   document.onkeyup = function(event) {
@@ -187,7 +199,11 @@ $(document).ready(function() {
       $('#word-spot').html("");
       $("#picture-spot").stop();
       $("#picture-spot").empty();
-      $("#picture-spot").append("<img src='assets/Images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
+      img = $("<img>");
+      img.attr("src","assets/Images/" +pokemon[curPokemon].picture);
+      img.attr("id","poke-gif");
+      $("#picture-spot").append(img);
+      // $("#picture-spot").append("<img src='assets/Images/"+ pokemon[curPokemon].picture + "' alt='Pokemon Picture' id='poke-gif'>")
       if (pokemon[curPokemon].caught) {
         
         if (caughtCount != 150) {
